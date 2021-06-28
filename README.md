@@ -1,7 +1,7 @@
 # AtCoder
 
 AtCoder用のレポジトリ
-（趣味程度のゆるふわ）
+（ゆるふわ）
 
 User ID: Ryb7532
 

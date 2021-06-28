@@ -29,7 +29,6 @@ def collectNewestAcceptedSubmissions(submissions):
     return result
 
 newestSubmits =  collectNewestAcceptedSubmissions(submissions)
-#newestSubmits[:2] # コンテスト数の指定
 
 
 
