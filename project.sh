@@ -10,5 +10,4 @@ cp template/template.cpp $project/d/d.cpp
 cp template/template.cpp $project/e/e.cpp
 cp template/template.cpp $project/f/f.cpp
 chmod u+x $project/test.sh
-mv $project submissions/.
-cd submissions/$project
+cd $project
