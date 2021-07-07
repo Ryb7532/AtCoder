@@ -37,3 +37,5 @@ acceptされた提出コード
 ### その他
 `project.sh` 過去問用のディレクトリ作成とサンプルケースの取得  
 参考: http://tatamo.81.la/blog/2018/12/07/atcoder-cli/
+
+`git_push.sh` コードの取得，gitへの追加，コミット，プッシュを行う
