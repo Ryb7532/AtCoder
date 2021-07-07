@@ -64,7 +64,7 @@ for submissions in newestSubmits.values():
             problem_num = chr(int(problem_num)+ord('a')-1)
         
         # 作成するファイルへのパス
-        path = root + sub["contest_id"] + "/" + problem_num
+        path = sub["contest_id"] + "/" + problem_num
         # 拡張子の設定（C++, Cのみ）
         if "C++" in sub["language"]:
             path += ".cpp"
