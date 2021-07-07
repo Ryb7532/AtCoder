@@ -107,4 +107,3 @@ for submissions in newestSubmits.values():
         sleep(3)
         
 driver.quit()
-print(add_cnt)

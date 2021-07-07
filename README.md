@@ -21,7 +21,11 @@ User ID: Ryb7532
 
 ### `submissions`
 
-acceptされた提出コード
+acceptされた提出コード  
+
+`scraping.py` 提出コードの取得  
+参考: https://zenn.dev/tishii2479/articles/6b381fb86e0369
+
 
 ### `template`
 
@@ -33,6 +37,3 @@ acceptされた提出コード
 ### その他
 `project.sh` 過去問用のディレクトリ作成とサンプルケースの取得  
 参考: http://tatamo.81.la/blog/2018/12/07/atcoder-cli/
-
-`scraping.py` 提出コードの取得  
-参考: https://zenn.dev/tishii2479/articles/6b381fb86e0369
