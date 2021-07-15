@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
-#define vector vec
+#define vec vector
 
 template< typename flow_t >
 struct FordFulkerson {
