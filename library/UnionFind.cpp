@@ -27,4 +27,3 @@ struct UnionFind {
     return ra == rb;
   }
 };
-UnionFind uft(100);
