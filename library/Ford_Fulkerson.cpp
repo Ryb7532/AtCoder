@@ -66,8 +66,3 @@ struct FordFulkerson {
     }
   }
 };
-
-
-int main() {
-  FordFulkerson<int> flow(100);
-}
