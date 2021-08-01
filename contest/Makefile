@@ -35,5 +35,11 @@ e: e.out
 f: f.out
 	./$^
 
+g: g.out
+	./$^
+
+h: h.out
+	./$^
+
 clean:
 	rm *.out
