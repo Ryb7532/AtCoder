@@ -51,7 +51,7 @@ from selenium import webdriver
 from time import sleep
 import subprocess
 
-driver = webdriver.Chrome()
+driver = webdriver.Firefox()
 
 add_cnt = 0
 
