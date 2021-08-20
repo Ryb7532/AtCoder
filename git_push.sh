@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cd submissions
-python scraping.py
+python3 scraping.py
 git add .
 today=`date "+%y/%m/%d"`
 git commit -m "${today}"
