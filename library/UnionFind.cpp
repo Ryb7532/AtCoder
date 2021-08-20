@@ -26,4 +26,5 @@ struct UnionFind {
     int ra = root(a), rb = root(b);
     return ra == rb;
   }
+  int &operator[](const int i) { return par[i]; }
 };
