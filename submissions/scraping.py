@@ -50,7 +50,9 @@ import html
 from selenium import webdriver
 from time import sleep
 import subprocess
+import geckodriver_autoinstaller
 
+geckodriver_autoinstaller.install()
 driver = webdriver.Firefox()
 
 add_cnt = 0
