@@ -1,7 +1,7 @@
+#-*- coding: utf-8 -*-
 import requests
 import json
 
-#-*- coding: utf-8 -*-
 userID = "Ryb7532" # 自分のAtCoderのユーザーIDを設定する
 api_path = "https://kenkoooo.com/atcoder/atcoder-api/results?user="
 
