@@ -3,7 +3,6 @@ using namespace std;
 typedef long long T;
 typedef long double ld;
 
-template <typename T>
 struct Point {
   T x; T y;
   Point(T a=0,T b=0): x(a), y(b) {}
@@ -37,7 +36,6 @@ struct Point {
   }
 };
 
-template <typename T>
-bool onLine(Point<T> p1, Point<T> p2, Point<T> p3) {
+bool onLine(Point p1, Point p2, Point p3) {
   return (p2.x-p1.x)*(p3.y-p1.y) == (p2.y-p1.y)*(p3.x-p1.x);
 }

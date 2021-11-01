@@ -1,10 +1,21 @@
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
+typedef long double ld;
+#define vec vector
+#define rep(i,n) for (int i=0; i<(n); i++)
+#define print(a) cout << a << endl
+#define fix(n) fixed << setprecision(n)
+#define fill(c, n) setfill(c) << setw(n)
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+#define Yes "Yes"
+#define YES "YES"
+#define No "No"
+#define NO "NO"
 
 
-const ll mod = 1e9+7;
-// const ll mod = 998244353;
+const ll mod = 998244353;
 struct mint {
   ll x;
   mint(ll x=0) : x((x%mod+mod)%mod) {}
@@ -51,3 +62,38 @@ struct mint {
     return (is);
   }
 };
+
+
+int main() {
+  int N;
+  cin >> N;
+  vec<pair<int,int>> AB(N);
+  rep(i,N) {
+    cin >> AB[i].first;
+  }
+  rep(i,N) {
+    cin >> AB[i].second;
+  }
+  sort(all(AB));
+  vec<vec<mint>> dp(N+1, vec<mint>(5001));
+  mint res;
+  dp[0][0] += 1;
+  rep(i,N) {
+    int a,b;
+    a = AB[i].first;
+    b = AB[i].second;
+    rep(j,5001-b) {
+      if (j+b>a)
+        break;
+      res += dp[i][j];
+    }
+    rep(j,5001) {
+      dp[i+1][j] += dp[i][j];
+      if (j+b>5000)
+        continue;
+      dp[i+1][j+b] += dp[i][j];
+    }
+  }
+  print(res);
+  return 0;
+}
