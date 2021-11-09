@@ -1,9 +1,11 @@
 #-*- coding: utf-8 -*-
+from typing import Sized
 import requests
 import json
 
 userID = "Ryb7532" # 自分のAtCoderのユーザーIDを設定する
 api_path = "https://kenkoooo.com/atcoder/atcoder-api/results?user="
+num_data = 100 # 最新のデータから対象にするデータ数
 
 # APIを用いた提出データの取得
 def getSubmissionData(userID):
@@ -13,6 +15,7 @@ def getSubmissionData(userID):
     return jsonData
 
 submissions = getSubmissionData(userID)
+submissions = submissions[-num_data:]
 
 def collectNewestAcceptedSubmissions(submissions):
     sortedData = sorted(submissions, key=lambda x: x['id'])  # IDで昇順ソートすると古い順になる
