@@ -13,6 +13,7 @@ def getSubmissionData(userID):
     return jsonData
 
 submissions = getSubmissionData(userID)
+print(submissions)
 
 def collectNewestAcceptedSubmissions(submissions):
     sortedData = sorted(submissions, key=lambda x: x['id'])  # IDで昇順ソートすると古い順になる
