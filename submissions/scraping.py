@@ -5,7 +5,7 @@ import json
 
 userID = "Ryb7532" # 自分のAtCoderのユーザーIDを設定する
 api_path = "https://kenkoooo.com/atcoder/atcoder-api/results?user="
-num_data = 100 # 最新のデータから対象にするデータ数
+num_data = 100 # 最新の提出データから対象にするデータ数
 
 # APIを用いた提出データの取得
 def getSubmissionData(userID):
@@ -71,7 +71,7 @@ for submissions in newestSubmits.values():
         
         # 作成するファイルへのパス
         path = sub["contest_id"] + "/" + problem_num
-        # 拡張子の設定（C++, Cのみ）
+        # 拡張子の設定
         if "C++" in sub["language"]:
             path += ".cpp"
         elif "C" in sub["language"]:
