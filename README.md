@@ -1,7 +1,6 @@
 # AtCoder
 
 AtCoder用のレポジトリ
-（ゆるふわ）
 
 User ID: Ryb7532
 
