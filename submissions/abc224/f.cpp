@@ -1,9 +1,20 @@
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
+typedef long double ld;
+#define vec vector
+#define rep(i,n) for (int i=0; i<(n); i++)
+#define print(a) cout << a << endl
+#define fix(n) fixed << setprecision(n)
+#define fill(c, n) setfill(c) << setw(n)
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+#define Yes "Yes"
+#define YES "YES"
+#define No "No"
+#define NO "NO"
 
 
-const ll mod = 1e9+7;
 const ll mod = 998244353;
 struct mint {
   ll x;
@@ -51,3 +62,27 @@ struct mint {
     return (is);
   }
 };
+
+
+int main() {
+  string S;
+  cin >> S;
+  int N = S.size();
+  vector<mint> five_pow(N);
+  mint two_pow = 1;
+  five_pow[0] = 1;
+  for (int i=1; i<N; i++) {
+    five_pow[i] = five_pow[i-1] * 5;
+    two_pow = two_pow * 2;
+  }
+  mint res = 0;
+  for (int i=N-1; i>=0; i--) {
+    mint n = S[i]-'0';
+    n *= 9 * five_pow[N-i-1] - 1;
+    n /= 8;
+    res += n;
+  }
+  res *= two_pow;
+  print(res);
+  return 0;
+}
