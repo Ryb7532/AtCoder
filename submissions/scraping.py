@@ -5,7 +5,7 @@ import json
 
 userID = "Ryb7532" # 自分のAtCoderのユーザーIDを設定する
 api_path = "https://kenkoooo.com/atcoder/atcoder-api/results?user="
-num_data = 100 # 最新の提出データから対象にするデータ数
+num_data = 2000 # 最新の提出データから対象にするデータ数
 
 # APIを用いた提出データの取得
 def getSubmissionData(userID):
