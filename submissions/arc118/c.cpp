@@ -15,6 +15,31 @@ typedef long double ld;
 
 
 int main() {
-  
+  int N;
+  cin >> N;
+  cout << 10 << " " << 15;
+  N -= 2;
+  for (int i=6; i<=10000; i+=6) {
+    cout << " " << i;
+    N--;
+    if (N == 0) {
+      return 0;
+    }
+  }
+  for (int i=20; i<=10000; i+=10) {
+    if (i%3 == 0) continue;
+    cout << " " << i;
+    N--;
+    if (N == 0) {
+      return 0;
+    }
+  }
+  for (int i=45; i<=10000; i+=30) {
+    cout << " " << i;
+    N--;
+    if (N == 0) {
+      return 0;
+    }
+  }
   return 0;
 }

@@ -15,6 +15,11 @@ typedef long double ld;
 
 
 int main() {
-  
+  int t;
+  ll N;
+  cin >> t >> N;
+  N *= 100;
+  ll A = (N+t-1)/t;
+  print(A*(100+t)/100-1);
   return 0;
 }
