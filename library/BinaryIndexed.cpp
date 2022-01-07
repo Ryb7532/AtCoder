@@ -16,7 +16,7 @@ struct BIT {
       res += dat[i];
     return res;
   }
-  T range_sum(int l,int r) { //[l,r]
-    return sum(r)-sum(l-1);
+  T range_sum(int l,int r) { // [l,r)
+    return sum(r-1)-sum(l-1);
   }
-};
+}; // 0-indexed
