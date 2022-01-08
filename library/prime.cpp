@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
-
+typedef long long ll;
+#define all(v) v.begin(), v.end()
 
 template <typename T>
 struct PrimeFact {
@@ -42,13 +43,25 @@ struct PrimeFact {
 };
 
 
-template <typename T>
-bool isPrime(T n) {
+bool isPrime(ll n) {
   if (n == 1) return false;
-  for (int i=2; i<sqrt((double)n)+0.1; i++) {
+  for (ll i=2; i*i<=n; i++) {
     if (n%i == 0) {
       return false;
     }
   }
   return true;
+}
+
+vector<ll> divisor(ll n) {
+  vector<ll> res;
+  for (ll i=1; i*i<=n; i++) {
+    if (n%i != 0) {
+      continue;
+    }
+    res.push_back(i);
+    if (i*i != n)
+      res.push_back(n/i);
+  }
+  sort(all(res));
 }
