@@ -2,4 +2,5 @@
 *.out
 *.log
 tests
+contest
 url.txt
