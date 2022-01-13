@@ -8,7 +8,7 @@ i=1
 while [ -s tests/sample-$i.in ];
 do
   ./$problem < tests/sample-$i.in > tests/answer-$i.out
-  diff -w tests/sample-$i.out tests/answer-$i.out > tests/text.txt
+  diff tests/sample-$i.out tests/answer-$i.out > tests/text.txt
   if [ -s tests/text.txt ]; then
     printf "\e[31merror\e[m\n"
   else
