@@ -1,6 +1,8 @@
 .DS_Store
 *.out
 *.log
-tests
-contest
+/contest
 url.txt
+/abc*
+/arc*
+/agc*
