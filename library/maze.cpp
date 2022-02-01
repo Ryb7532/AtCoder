@@ -1,6 +1,5 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define vec vector
 
 
 int H, W;

@@ -1,9 +1,19 @@
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
+typedef long double ld;
+#define rep(i,n) for (int i=0; i<(n); i++)
+#define print(a) cout << a << endl
+#define fix(n) fixed << setprecision(n)
+#define fill_c(c, n) setfill(c) << setw(n)
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+#define Yes "Yes"
+#define YES "YES"
+#define No "No"
+#define NO "NO"
 
 
-const ll mod = 1e9+7;
 const ll mod = 998244353;
 struct mint {
   ll x;
@@ -72,4 +82,33 @@ struct Combination {
     return r == 0 ? 1 : C(n+r-1, r);
   }
 };
-Combination<mint> c(1000005);
+Combination<mint> c(205);
+
+int main() {
+  int N,K;
+  cin >> N >> K;
+  vector<int> A(N);
+  ll sum = 0;
+  rep(i,N) {
+    cin >> A[i];
+    sum += A[i];
+  }
+  sum -= A[0];
+  if (A[0] < K+sum) {
+    print(0);
+    return 0;
+  }
+  mint res=1;
+  rep(i,K-1) {
+    res *= A[0]-1-sum-i;
+  }
+  res *= c.rfact(K-1);
+  rep(i,N-1) {
+    rep(j,K-1) {
+      res *= A[i+1]+K-1-j;
+    }
+    res *= c.rfact(K-1);
+  }
+  print(res);
+  return 0;
+}

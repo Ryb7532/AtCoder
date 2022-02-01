@@ -1,8 +1,9 @@
 #include<bits/stdc++.h>
 using namespace std;
-typedef long long T;
 typedef long double ld;
 
+
+template< typename T >
 struct Point {
   T x; T y;
   Point(T a=0,T b=0): x(a), y(b) {}

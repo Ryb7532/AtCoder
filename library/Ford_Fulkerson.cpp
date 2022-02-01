@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
-#define vec vector
+
 
 template< typename flow_t >
 struct FordFulkerson {
@@ -14,8 +14,8 @@ struct FordFulkerson {
   };
 
   private:
-  vec<vec<edge>> graph;
-  vec<int> used;
+  vector<vector<edge>> graph;
+  vector<int> used;
   const flow_t INF;
   int timestamp;
 

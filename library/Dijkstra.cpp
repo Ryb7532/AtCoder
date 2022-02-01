@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
-#define vec vector
+
 
 //Dijkstra (no minus cost path)
 const int MAX_V = 1000;
@@ -13,13 +13,13 @@ typedef struct{
 typedef pair<ll, int> P; //first:dis second:num
 
 ll d[MAX_V];
-vec<vec<Edge>> G(MAX_V);
+vector<vector<Edge>> G(MAX_V);
 
 void dijkstra(int s) {
   fill(d, d+MAX_V, INF);
   d[s] = 0;
 
-  priority_queue<P, vec<P>, greater<P>> que;
+  priority_queue<P, vector<P>, greater<P>> que;
   que.push(P(0, s));
   while (!que.empty()) {
     P p = que.top();

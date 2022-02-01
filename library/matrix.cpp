@@ -1,16 +1,16 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define vec vector
+
 
 template< typename T >
 struct Matrix {
-  vec<vec<T>> A;
-  Matrix(size_t n, size_t m): A(n,vec<T>(m,0)) {};
-  Matrix(size_t n): A(n,vec<T>(n,0)) {};
+  vector<vector<T>> A;
+  Matrix(size_t n, size_t m): A(n,vector<T>(m,0)) {};
+  Matrix(size_t n): A(n,vector<T>(n,0)) {};
   size_t height() const { return (A.size()); }
   size_t width() const { return (A[0].size()); }
-  inline const vec< T > &operator[](int k) const { return A.at(k); }
-  inline vec< T > &operator[](int k) { return A.at(k); }
+  inline const vector< T > &operator[](int k) const { return A.at(k); }
+  inline vector< T > &operator[](int k) { return A.at(k); }
   static Matrix I(size_t n) {
     Matrix mat(n);
     for(int i=0; i<n; i++) mat[i][i] = 1;
@@ -35,7 +35,7 @@ struct Matrix {
   Matrix &operator*=(const Matrix &B) {
     size_t n = height(), m = B.width(), p = width();
     assert(p == B.height());
-    vec<vec< T >> C(n, vec< T >(m,0));
+    vector<vector< T >> C(n, vector< T >(m,0));
     for(int i=0; i<n; i++)
       for(int j=0; j<m; j++)
         for(int k=0; k<p; k++)
