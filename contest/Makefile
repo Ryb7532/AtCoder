@@ -16,6 +16,11 @@ e.out: e.cpp
 	$(CC) $(LABEL) -o $@ $^
 f.out: f.cpp
 	$(CC) $(LABEL) -o $@ $^
+g.out: g.cpp
+	$(CC) $(LABEL) -o $@ $^
+h.out: h.cpp
+	$(CC) $(LABEL) -o $@ $^
+
 
 a: a.out
 	./$^
