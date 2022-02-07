@@ -1,6 +1,17 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
+typedef long long ll;
 typedef long double ld;
+#define rep(i,n) for (int i=0; i<(n); i++)
+#define print(a) cout << a << endl
+#define fix(n) fixed << setprecision(n)
+#define fill_c(c, n) setfill(c) << setw(n)
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+#define Yes "Yes"
+#define YES "YES"
+#define No "No"
+#define NO "NO"
 
 
 template< typename T >
@@ -37,7 +48,32 @@ struct Point {
   }
 };
 
-template< typename T >
-bool onLine(Point<T> p1, Point<T> p2, Point<T> p3) {
-  return (p2.x-p1.x)*(p3.y-p1.y) == (p2.y-p1.y)*(p3.x-p1.x);
+
+int main() {
+  int N;
+  cin >> N;
+  vector<Point<ld>> A(N), B(N);
+  Point<ld> Ga, Gb;
+  vector<ld> disA(N), disB(N);
+  rep(i,N) {
+    cin >> A[i];
+    Ga += A[i];
+  }
+  rep(i,N) {
+    cin >> B[i];
+    Gb += B[i];
+  }
+  Ga.x /= N; Ga.y /= N;
+  Gb.x /= N; Gb.y /= N;
+  rep(i,N) {
+    disA[i] = Ga.distance(A[i]);
+  }
+  rep(i,N) {
+    disB[i] = Gb.distance(B[i]);
+  }
+  sort(rall(disA));
+  sort(rall(disB));
+  ld res = disB[0]/disA[0];
+  print(fix(9)<<res);
+  return 0;
 }
