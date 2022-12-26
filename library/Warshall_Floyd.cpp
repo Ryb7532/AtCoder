@@ -3,8 +3,8 @@ using namespace std;
 typedef long long ll;
 #define rep(i,n) for (int i=0; i<(n); i++)
 
-
-//warshall_floyd
+// Task: All Pair Shortest Path Problem
+// Warshall-Floyd Algorithm
 const int MAX_V = 100;
 const ll INF = 1e9;
 int V;

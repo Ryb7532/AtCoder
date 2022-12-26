@@ -9,7 +9,7 @@ int V;
 vector<int> edge[MV];
 vector<int> res;
 vector<int> indg(MV);
-stack<int> st; //0 indegree
+stack<int> st; // 0 indegree
 
 
 void init(int e) {
@@ -25,6 +25,8 @@ void init(int e) {
       st.push(i);
   }
 }
+
+// Topological sort
 void tsort() {
   while (!st.empty()) {
     int n = st.top();

@@ -1,7 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-
+// Task: Subset Sum Problem
+// Binary Indexed Tree
 template<typename T>
 struct BIT {
   int n;

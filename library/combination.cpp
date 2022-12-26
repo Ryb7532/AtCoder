@@ -46,6 +46,7 @@ struct mint {
   }
 };
 
+// Combination
 template< typename T >
 struct Combination {
   vector< T > _fact, _rfact, _inv;

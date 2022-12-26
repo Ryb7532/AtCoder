@@ -2,7 +2,7 @@
 using namespace std;
 typedef long double ld;
 
-
+// Coordinate on a two-dimensional plane
 template< typename T >
 struct Point {
   T x; T y;
@@ -37,6 +37,7 @@ struct Point {
   }
 };
 
+// Judge whether three points are on a line.
 template< typename T >
 bool onLine(Point<T> p1, Point<T> p2, Point<T> p3) {
   return (p2.x-p1.x)*(p3.y-p1.y) == (p2.y-p1.y)*(p3.x-p1.x);

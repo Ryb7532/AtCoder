@@ -2,7 +2,8 @@
 using namespace std;
 typedef long long ll;
 
-
+// Task: Maximum Flow Problem
+// Ford-Fulkerson Algorithm
 template< typename flow_t >
 struct FordFulkerson {
   struct edge {

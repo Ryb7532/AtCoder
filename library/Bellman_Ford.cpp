@@ -3,8 +3,8 @@ using namespace std;
 typedef long long ll;
 #define rep(i, n) for (int i = 0; i < (n); i++)
 
-
-//Bellman_Ford
+// Task: Single Source Shortest Path Problem
+// Bellman-Ford Algorithm
 const int MAX_V = 1000;
 const ll INF = 1e9;
 typedef struct{

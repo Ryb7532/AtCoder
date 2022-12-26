@@ -2,21 +2,20 @@
 using namespace std;
 typedef long long ll;
 
-
-//Dijkstra (no minus cost path)
+// Task: Single Source Shortest Path Problem
+// Dijkstra (no minus cost path)
 const int MAX_V = 1000;
 const ll INF = 1LL << 50;
 typedef struct{
   int to;
   ll cost;
 } Edge;
-typedef pair<ll, int> P; //first:dis second:num
+typedef pair<ll, int> P; // first:dis second:num
 
-ll d[MAX_V];
+vector<ll> d(MAX_V, INF);
 vector<vector<Edge>> G(MAX_V);
 
 void dijkstra(int s) {
-  fill(d, d+MAX_V, INF);
   d[s] = 0;
 
   priority_queue<P, vector<P>, greater<P>> que;

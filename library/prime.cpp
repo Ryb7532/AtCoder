@@ -3,11 +3,14 @@ using namespace std;
 typedef long long ll;
 #define all(v) v.begin(), v.end()
 
+// Prime Factorization
 template <typename T>
 struct PrimeFact {
   vector<T> spf;
   PrimeFact(T N) { init(N); }
-  void init(T N) { // preprocess
+
+  // preprocess
+  void init(T N) {
     spf.assign(N + 1, 0);
     for (T i = 0; i <= N; i++)
       spf[i] = i;
@@ -17,7 +20,9 @@ struct PrimeFact {
           if (spf[j] == j)
             spf[j] = i;
   }
-  map<T, T> get(T n) { // calc prime factorization
+
+  // calc prime factorization
+  map<T, T> get(T n) {
     map<T, T> m;
     while (n != 1) {
       m[spf[n]]++;
@@ -25,7 +30,9 @@ struct PrimeFact {
     }
     return m;
   }
-  T cntDivisor(T n) { // calc number of divisor
+
+  // calc number of divisor
+  T cntDivisor(T n) {
     T p = 0, cnt = 0, res = 1;
     while (n != 1) {
       if (p == spf[n])
@@ -42,7 +49,7 @@ struct PrimeFact {
   }
 };
 
-
+// Determine if a given number is prime.
 bool isPrime(ll n) {
   if (n == 1) return false;
   for (ll i=2; i*i<=n; i++) {
@@ -53,6 +60,7 @@ bool isPrime(ll n) {
   return true;
 }
 
+// Enumeration of divisors
 vector<ll> divisor(ll n) {
   vector<ll> res;
   for (ll i=1; i*i<=n; i++) {

@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-
+// Union Find Tree
 struct UnionFind {
   vector<int> par;
   UnionFind(int n) : par(n, -1) {}

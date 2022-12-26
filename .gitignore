@@ -1,7 +1,6 @@
 .DS_Store
 *.out
 *.log
-/contest
 url.txt
 /abc*
 /arc*
