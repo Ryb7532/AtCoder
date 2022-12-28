@@ -367,7 +367,7 @@ int example_Seg2D() {
 // Two-dimentional (height x width) Segment Tree with Lazy Propagation
 // rectangular update, single point query
 template< typename structure_t, typename get_t, typename update_t = get_t >
-class Seg2DRUPQ {
+class Seg2D_RUPQ {
   using F = function<get_t(get_t, get_t)>;
   using G = function<get_t(structure_t &, int)>;
   using H = function<void(structure_t &, int, int, update_t)>;
@@ -404,7 +404,7 @@ class Seg2DRUPQ {
 
   public:
     // let n is height
-    Seg2DRUPQ(int n, const F &f, const G &g, const H &h, const get_t &identity)
+    Seg2D_RUPQ(int n, const F &f, const G &g, const H &h, const get_t &identity)
         : f(f), g(g), h(h), identity(identity) {
       sz = 1;
       while(sz < n) sz <<= 1;
@@ -475,10 +475,10 @@ class Seg2DRUPQ {
 // examples
 // Binary Indexed Tree (Range Update and Point Query)
 template<typename T>
-struct BITRUPQ {
+struct BIT_RUPQ {
   int n;
   vector<T> dat;
-  BITRUPQ(int n) : n(n), dat(n+1,0){}
+  BIT_RUPQ(int n) : n(n), dat(n+1,0){}
   void add(int i,T x) {
     for (++i; i<=n; i+=(i&-i)) dat[i] += x;
   }
@@ -495,9 +495,9 @@ struct BITRUPQ {
   }
 }; // 0-indexed
 
-int example_Seg2DRUPQ() {
+int example_Seg2D_RUPQ() {
   auto f = [](int x, int y) { return x + y; };
-  auto g = [](BITRUPQ<int> &k, int x) { return k.point_query(x); };
-  auto h = [](BITRUPQ<int> &k, int x, int y, int z) { k.range_add(x, y, z); };
-  Seg2DRUPQ<BITRUPQ<int>,int> seg(100002, f, g, h, 0);
+  auto g = [](BIT_RUPQ<int> &k, int x) { return k.point_query(x); };
+  auto h = [](BIT_RUPQ<int> &k, int x, int y, int z) { k.range_add(x, y, z); };
+  Seg2D_RUPQ<BIT_RUPQ<int>,int> seg(100002, f, g, h, 0);
 }
