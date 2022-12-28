@@ -244,6 +244,7 @@ class RUQ {
 
 
 // Two-dimentional (height x width) Segment Tree
+// single point update, rectangular query
 template< typename structure_t, typename get_t, typename update_t = get_t >
 class Seg2D {
   using F = function<get_t(get_t, get_t)>;
@@ -255,16 +256,16 @@ class Seg2D {
   const F f;
   // Function that calculate f in range [x,y) of structure_t (such BIT, RMP)
   const G g;
-  // Function that update x-th element of structure_t to z
+  // Function that update x-th element of structure_t by z
   const H h;
   // identity element of Monoid
   const get_t identity;
   // beet[k]: index set of columns with values in rows covered by k-th node
   vector<vector<int>> beet;
-  // LL[k][x] (,RR[k][x]): maximum index of left (right) child's beet that is lower than beet[k][x]
+  // LL[k][x] (,RR[k][x]): minimum index of left (right) child's beet that is not lower than beet[k][x]
   vector<vector<int>> LL, RR;
 
-  // calculate f in [a,b)x[beet[k][x],beet[k][y]) ([l,r) is the range of rows covered by k-th node)
+  // update the element in (a, beet[k][x] ) by z ([l,r) is the range of rows covered by k-th node)
   void update(int a, int x, update_t z, int k, int l, int r) {
     if(r <= a || a + 1 <= l) return;
     if(a <= l && r <= a + 1) return h(seg[k], x, z);
@@ -272,6 +273,7 @@ class Seg2D {
     update(a, RR[k][x], z, 2 * k + 1, (l + r) >> 1, r);
     return h(seg[k], x, z);
   }
+  // calculate f in [a,b)x[ beet[k][x], beet[k][y] ) ([l,r) is the range of rows covered by k-th node)
   get_t query(int a, int b, int x, int y, int k, int l, int r) {
     if(a >= r || b <= l) return identity;
     if(a <= l && r <= b) return g(seg[k], x, y);
@@ -321,7 +323,7 @@ class Seg2D {
         seg.emplace_back(structure_t(beet[k].size()));
       }
     }
-    // update the element in x,y to z
+    // update the element in x,y by z
     void update(int x, int y, update_t z) {
       y = lower_bound(begin(beet[1]), end(beet[1]), y) - begin(beet[1]);
       return update(x, y, z, 1, 0, sz);
@@ -354,7 +356,148 @@ struct BIT {
   }
 };
 
-auto f = [](int x, int y) { return x + y; };
-auto g = [](BIT<int> &k, int x, int y) { return k.sum(y - 1) - k.sum(x - 1); };
-auto h = [](BIT<int> &k, int x, int y) { k.add(x, y); };
-Seg2D<BIT<int>,int> seg(100002, f, g, h, 0);
+int example_Seg2D() {
+  auto f = [](int x, int y) { return x + y; };
+  auto g = [](BIT<int> &k, int x, int y) { return k.sum(y - 1) - k.sum(x - 1); };
+  auto h = [](BIT<int> &k, int x, int y) { k.add(x, y); };
+  Seg2D<BIT<int>,int> seg(100002, f, g, h, 0);
+}
+
+
+// Two-dimentional (height x width) Segment Tree with Lazy Propagation
+// rectangular update, single point query
+template< typename structure_t, typename get_t, typename update_t = get_t >
+class Seg2DRUPQ {
+  using F = function<get_t(get_t, get_t)>;
+  using G = function<get_t(structure_t &, int)>;
+  using H = function<void(structure_t &, int, int, update_t)>;
+  int sz;
+  vector<structure_t> seg;
+  // Binary-op in Monoid (get_t)
+  const F f;
+  // Function that get x-th element of structure_t (such BITRangeUpdate, RUP)
+  const G g;
+  // Function that update the elements in range [x,y) of structure_t by z
+  const H h;
+  // identity element of Monoid
+  const get_t identity;
+  // beet[k]: index set of columns with values in rows covered by k-th node
+  vector<vector<int>> beet;
+  // LL[k][x] (,RR[k][x]): minimum index of left (right) child's beet that is not lower than beet[k][x]
+  vector<vector<int>> LL, RR;
+
+  // update element in range [a,b)x[ beet[k][x], beet[k][y] ) by z ([l,r) is the range of rows covered by k-th node)
+  void update(int a, int b, int x, int y, update_t z, int k, int l, int r) {
+    if(a >= r || b <= l) return;
+    if(a <= l && r <= b) return h(seg[k], x, y, z);
+    update(a, b, LL[k][x], LL[k][y], z, 2 * k + 0, l, (l + r) >> 1);
+    update(a, b, RR[k][x], RR[k][y], z, 2 * k + 1, (l + r) >> 1, r);
+  }
+  // calculate f in (a, beet[k][x] ) ([l,r) is the range of rows covered by k-th node)
+  get_t query(int a, int x, int k, int l, int r) {
+    if(r <= a || a + 1 <= l) return identity;
+    if(a <= l && r <= a + 1) return g(seg[k], x);
+    return f(query(a, LL[k][x], 2 * k + 0, l, (l + r) >> 1),
+             query(a, RR[k][x], 2 * k + 1, (l + r) >> 1, r));
+  }
+
+
+  public:
+    // let n is height
+    Seg2DRUPQ(int n, const F &f, const G &g, const H &h, const get_t &identity)
+        : f(f), g(g), h(h), identity(identity) {
+      sz = 1;
+      while(sz < n) sz <<= 1;
+      beet.resize(2 * sz);
+      LL.resize(2 * sz);
+      RR.resize(2 * sz);
+    }
+    // predefine [a,b)x[x,y) that is updated
+    void preupdate(int a, int b, int x, int y) {
+      a += sz;
+      b += sz;
+      for (int l = a, r = b; l < r; l >>= 1, r >>= 1) {
+        if (l & 1) {
+          beet[l].push_back(x);
+          beet[l].push_back(y);
+          l++;
+        }
+        if (r & 1) {
+          r--;
+          beet[r].push_back(x);
+          beet[r].push_back(y);
+        }
+      }
+    }
+    // build the two-dimentional segment tree
+    void build() {
+      // sort and remove duplicate elements
+      for(int k = (int) beet.size() - 1; k > 0; k--) {
+        sort(begin(beet[k]), end(beet[k]));
+        beet[k].erase(unique(begin(beet[k]), end(beet[k])), end(beet[k]));
+      }
+      for(int k = sz - 1; k > 0; k--) {
+        // merge itself and its children's arrays, and remove duplicate elements (sorted)
+        beet[k].resize(beet[k].size() + beet[2 * k + 0].size());
+        merge(begin(beet[k]), end(beet[k]), begin(beet[2 * k + 0]), end(beet[2 * k + 0]), begin(beet[k]));
+        beet[k].resize(beet[k].size() + beet[2 * k + 1].size());
+        merge(begin(beet[k]), end(beet[k]), begin(beet[2 * k + 1]), end(beet[2 * k + 1]), begin(beet[k]));
+        beet[k].erase(unique(begin(beet[k]), end(beet[k])), end(beet[k]));
+        // calculate LL and RR
+        LL[k].resize(beet[k].size() + 1);
+        RR[k].resize(beet[k].size() + 1);
+        int tail1 = 0, tail2 = 0;
+        for(int i = 0; i < beet[k].size(); i++) {
+          while(tail1 < beet[2 * k + 0].size() && beet[2 * k + 0][tail1] < beet[k][i]) ++tail1;
+          while(tail2 < beet[2 * k + 1].size() && beet[2 * k + 1][tail2] < beet[k][i]) ++tail2;
+          LL[k][i] = tail1, RR[k][i] = tail2;
+        }
+        LL[k][beet[k].size()] = (int) beet[2 * k + 0].size();
+        RR[k][beet[k].size()] = (int) beet[2 * k + 1].size();
+      }
+      for(int k = 0; k < beet.size(); k++) {
+        seg.emplace_back(structure_t(beet[k].size()));
+      }
+    }
+    // update the elements in range [a,b)x[x,y) by z
+    void range_update(int a, int b, int x, int y, update_t z) {
+      x = lower_bound(begin(beet[1]), end(beet[1]), x) - begin(beet[1]);
+      y = lower_bound(begin(beet[1]), end(beet[1]), y) - begin(beet[1]);
+      return update(a, b, x, y, z, 1, 0, sz);
+    }
+    // get the element in x,y
+    get_t point_query(int x, int y) {
+      y = lower_bound(begin(beet[1]), end(beet[1]), y) - begin(beet[1]);
+      return point_query(x, y, 1, 0, sz);
+    }
+};
+
+// examples
+// Binary Indexed Tree (Range Update and Point Query)
+template<typename T>
+struct BITRUPQ {
+  int n;
+  vector<T> dat;
+  BITRUPQ(int n) : n(n), dat(n+1,0){}
+  void add(int i,T x) {
+    for (++i; i<=n; i+=(i&-i)) dat[i] += x;
+  }
+  // add x to elements in [a,b)
+  void range_add(int a, int b, T x) {
+    add(a, x);
+    add(b, -x);
+  }
+  T point_query(int i) {
+    T res = 0;
+    for (++i; i>0; i-=(i&-i))
+      res += dat[i];
+    return res;
+  }
+}; // 0-indexed
+
+int example_Seg2DRUPQ() {
+  auto f = [](int x, int y) { return x + y; };
+  auto g = [](BITRUPQ<int> &k, int x) { return k.point_query(x); };
+  auto h = [](BITRUPQ<int> &k, int x, int y, int z) { k.range_add(x, y, z); };
+  Seg2DRUPQ<BITRUPQ<int>,int> seg(100002, f, g, h, 0);
+}
