@@ -1,0 +1,39 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+typedef long double ld;
+#define rep(i,n) for (int i=0; i<(n); i++)
+#define rrep(i,n) for (int i=n-1; i>=0; i--)
+#define print(a) cout << a << endl
+#define fix(n) fixed << setprecision(n)
+#define fill_c(c, n) setfill(c) << setw(n)
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+#define Yes "Yes"
+#define YES "YES"
+#define No "No"
+#define NO "NO"
+
+
+int main() {
+  int N,K,Q;
+  cin >> N >> K >> Q;
+  vector<int> A(K+1);
+  rep(i,K) {
+    cin >> A[i];
+  }
+  A[K] = N+1;
+  rep(_,Q) {
+    int l;
+    cin >> l;
+    l--;
+    if (A[l+1] != A[l]+1)
+      A[l]++;
+  }
+  cout << A[0];
+  rep(i,K-1) {
+    cout << " " << A[i+1];
+  }
+  cout << endl;
+  return 0;
+}
