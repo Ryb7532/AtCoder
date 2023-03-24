@@ -56,6 +56,10 @@ import subprocess
 import geckodriver_autoinstaller
 
 geckodriver_autoinstaller.install()
+# FireFoxが更新された直後ではメッセージによってスクレイピングができなくなるため，一度Firefoxを立ち上げ終了する
+driver = webdriver.Firefox()
+driver.quit()
+
 driver = webdriver.Firefox()
 
 add_cnt = 0
