@@ -15,6 +15,28 @@ typedef long double ld;
 
 
 int main() {
-  
+  int N;
+  cin >> N;
+  vector<vector<ll>> P(N);
+  rep(i,N) {
+    int A;
+    cin >> A;
+    A--;
+    P[A].push_back(min(i+1, N-i));
+  }
+  ll res = 0;
+  rep(i,N) {
+    ll l = min(i+1, N-i);
+    res += (N-i-l+1)*l;
+    res += l*(l-1)/2;
+  }
+  rep(i,N) {
+    sort(all(P[i]));
+    int s = P[i].size();
+    rep(j,s) {
+      res -= P[i][j]*(s-j);
+    }
+  }
+  print(res);
   return 0;
 }

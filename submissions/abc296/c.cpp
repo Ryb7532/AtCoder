@@ -15,6 +15,20 @@ typedef long double ld;
 
 
 int main() {
-  
+  int N;
+  ll X;
+  cin >> N >> X;
+  vector<ll> A(N);
+  set<ll> A_;
+  rep(i,N) {
+    cin >> A[i];
+    A_.insert(A[i]);
+  }
+  bool flag = false;
+  rep(i,N) {
+    if (A_.find(A[i]-X) != A_.end())
+      flag = true;
+  }
+  printyesno(flag);
   return 0;
 }

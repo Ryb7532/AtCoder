@@ -15,6 +15,26 @@ typedef long double ld;
 
 
 int main() {
-  
+  int N,M;
+  cin >> N >> M;
+  vector<int> A(M);
+  rep(i,M) {
+    cin >> A[i];
+  }
+  vector<int> stack;
+  int j = 0;
+  rep(i,N) {
+    stack.push_back(i+1);
+    if (j < M && i+1 == A[j]) {
+      j++;
+    } else {
+      while (!stack.empty()) {
+        int back = stack.back();
+        stack.pop_back();
+        cout << back << " ";
+      }
+    }
+  }
+  cout << endl;
   return 0;
 }

@@ -15,6 +15,14 @@ typedef long double ld;
 
 
 int main() {
-  
+  int N;
+  string S;
+  cin >> N >> S;
+  bool flag = true;
+  rep(i,N-1) {
+    if (S[i] == S[i+1])
+      flag = false;
+  }
+  printyesno(flag);
   return 0;
 }

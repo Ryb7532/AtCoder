@@ -2,7 +2,7 @@
 using namespace std;
 typedef long long ll;
 
-// Task: Compute a particular solution of a * x + b * y = 1
+// Task: Compute GCD(a,b)(=d) and a particular solution of a * x + b * y = d
 // Extended Euclidean Algorithm
 ll extGCD(ll a, ll b, ll &x, ll &y) {
   if (b==0) {

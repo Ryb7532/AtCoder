@@ -15,6 +15,17 @@ typedef long double ld;
 
 
 int main() {
-  
+  int N,K;
+  string S;
+  cin >> N >> K >> S;
+  rep(i,N) {
+    if (K > 0 && S[i] == 'o') {
+      cout << 'o';
+      K--;
+    } else {
+      cout << 'x';
+    }
+  }
+  cout << endl;
   return 0;
 }

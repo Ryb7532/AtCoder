@@ -15,6 +15,32 @@ typedef long double ld;
 
 
 int main() {
-  
+  int N;
+  cin >> N;
+  vector<int> A(N);
+  vector<int> ind(N, 0);
+  rep(i,N) {
+    cin >> A[i];
+    A[i]--;
+    ind[A[i]]++;
+  }
+  queue<int> zeroind;
+  rep(i,N) {
+    if (ind[i] == 0)
+      zeroind.push(i);
+  }
+  while (!zeroind.empty()) {
+    int n = zeroind.front();
+    zeroind.pop();
+    ind[A[n]]--;
+    if (ind[A[n]] == 0)
+      zeroind.push(A[n]);
+  }
+  int res = 0;
+  rep(i,N) {
+    if (ind[i])
+      res++;
+  }
+  print(res);
   return 0;
 }

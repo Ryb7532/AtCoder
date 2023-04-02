@@ -15,6 +15,21 @@ typedef long double ld;
 
 
 int main() {
-  
+  ll N,M;
+  cin >> N >> M;
+  if (N >= M) {
+    print(M);
+    return 0;
+  }
+  while (N >= M/N) {
+    for (ll i=M/N; i*i<=M; i++) {
+      if (M%i == 0 && M/i <= N) {
+        print(M);
+        return 0;
+      }
+    }
+    M++;
+  }
+  print(-1);
   return 0;
 }

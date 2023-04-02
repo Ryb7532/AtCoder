@@ -10,11 +10,29 @@ typedef long double ld;
 #define all(v) v.begin(), v.end()
 #define rall(v) v.rbegin(), v.rend()
 #define Yes "Yes"
+#define YES "YES"
 #define No "No"
-#define printyesno(f) cout << (f ? Yes : No) << endl
+#define NO "NO"
+#define printYorN(f) cout << (f ? Yes : No) << endl
 
 
 int main() {
-  
+  int N;
+  ll T;
+  cin >> N >> T;
+  vector<ll> A(N);
+  ll sum = 0;
+  rep(i,N) {
+    cin >> A[i];
+    sum += A[i];
+  }
+  T %= sum;
+  rep(i,N) {
+    if (T < A[i]) {
+      print(i+1 << " " << T);
+      break;
+    }
+    T -= A[i];
+  }
   return 0;
 }

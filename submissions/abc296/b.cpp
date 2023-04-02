@@ -15,6 +15,17 @@ typedef long double ld;
 
 
 int main() {
-  
+  string res;
+  rep(i,8) {
+    string S;
+    cin >> S;
+    rep(j,8) {
+      if (S[j] == '*') {
+        res.push_back('a'+j);
+        res.push_back('1'+7-i);
+      }
+    }
+  }
+  print(res);
   return 0;
 }

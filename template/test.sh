@@ -24,8 +24,9 @@ i=1
 while [ -s tests/sample-$i.in ];
 do
   runtime=`(time ./a.out < tests/sample-$i.in > tests/answer-$i.out)2>&1`
-  diff tests/sample-$i.out tests/answer-$i.out > tests/text.txt
-  if [ -s tests/text.txt ]; then
+  # diff tests/sample-$i.out tests/answer-$i.out > tests/text.txt
+  res=`.././check_testcase.out tests/sample-$i.out tests/answer-$i.out`
+  if [ $res == 1 ]; then
     printf "\e[31merror\e[m\t\t${runtime}\n"
     FLAG_SUBMIT=0
   else
@@ -33,7 +34,7 @@ do
     rm tests/answer-$i.out
   fi
 
-  rm tests/text.txt
+  # rm tests/text.txt
   i=`expr $i + 1 `
 done
 

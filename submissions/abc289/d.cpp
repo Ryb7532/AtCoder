@@ -15,6 +15,34 @@ typedef long double ld;
 
 
 int main() {
-  
+  int N,M,X;
+  cin >> N;
+  vector<int> A(N);
+  rep(i,N) {
+    cin >> A[i];
+  }
+  cin >> M;
+  vector<int> B(M);
+  rep(i,M) {
+    cin >> B[i];
+  }
+  cin >> X;
+  vector<bool> dp(X+1, false);
+  dp[0] = true;
+  int k = 0;
+  rep(i,X) {
+    if (k < M && B[k] == i) {
+      dp[i] = false;
+      k++;
+    }
+    if (dp[i]) {
+      rep(j,N) {
+        if (i+A[j]>X)
+          break;
+        dp[i+A[j]] = true;
+      }
+    }
+  }
+  printyesno(dp[X]);
   return 0;
 }

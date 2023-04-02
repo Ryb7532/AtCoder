@@ -15,6 +15,18 @@ typedef long double ld;
 
 
 int main() {
-  
+  int N,M;
+  cin >> N >> M;
+  vector<int> A(N);
+  rep(i,N) {
+    cin >> A[i];
+  }
+  int res = 0;
+  rep(_,M) {
+    int b;
+    cin >> b;
+    res += A[--b];
+  }
+  print(res);
   return 0;
 }

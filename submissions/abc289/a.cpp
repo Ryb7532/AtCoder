@@ -15,6 +15,11 @@ typedef long double ld;
 
 
 int main() {
-  
+  string S;
+  cin >> S;
+  for (char c: S) {
+    cout << 1-c+'0';
+  }
+  cout << endl;
   return 0;
 }

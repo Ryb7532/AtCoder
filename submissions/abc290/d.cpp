@@ -14,7 +14,24 @@ typedef long double ld;
 #define printyesno(f) cout << (f ? Yes : No) << endl
 
 
+ll GCD(ll a, ll b) {
+  if (b==0) {
+    return a;
+  }
+  return GCD(b, a%b);
+}
+
+
 int main() {
-  
+  int T;
+  cin >> T;
+  rep(_,T) {
+    ll N,D,K;
+    cin >> N >> D >> K;
+    K--;
+    ll gcd = GCD(D,N);
+    int N_ = N/gcd;
+    print((K/N_ + (K*D))%N);
+  }
   return 0;
 }

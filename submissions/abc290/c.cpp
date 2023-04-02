@@ -15,6 +15,22 @@ typedef long double ld;
 
 
 int main() {
-  
+  int N,K;
+  cin >> N >> K;
+  vector<bool> exist(K, false);
+  rep(i,N) {
+    int A;
+    cin >> A;
+    if (A >= K)
+      continue;
+    exist[A] = true;
+  }
+  int res = 0;
+  while (res < K) {
+    if (!exist[res])
+      break;
+    res++;
+  }
+  print(res);
   return 0;
 }
