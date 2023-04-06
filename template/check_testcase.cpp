@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
       }
     } else if (p1.first <= 2 && p2.first <= 2) {
       ld f1 = p1.second.f, f2 = p2.second.f;
-      if (abs(f1-f2) > 1e-6 && abs(f1-f2)/f1 > 1e-6) {
+      if (abs(f1-f2) > 1e-9 && abs(f1-f2)/f1 > 1e-9) {
         flag = false;
         break;
       }
