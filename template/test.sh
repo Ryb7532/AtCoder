@@ -1,4 +1,5 @@
 #!/bin/bash
+contest="abc"
 
 FLAG_SUBMIT=1
 while (( $# > 0 ))
@@ -39,5 +40,5 @@ do
 done
 
 if [ $FLAG_SUBMIT == 1 ]; then
-  echo abc${problem} | acc submit
+  echo $contest$problem | acc submit
 fi
