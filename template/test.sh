@@ -19,6 +19,7 @@ done
 printf "which problem?\n"
 read problem
 cd $problem
+rm -f a.out
 g++ -Wall -o a.out main.cpp
 export TIMEFORMAT="%Es"
 i=1
