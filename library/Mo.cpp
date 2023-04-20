@@ -29,7 +29,7 @@ class Mo {
     }
 
     // calcurate queries
-    int run(const ADD &add, const DEL &del, const REM &rem) {
+    void run(const ADD &add, const DEL &del, const REM &rem) {
       assert(left.size() == order.size());
       sort(all(order), [&](int a, int b) {
         int ablock = left[a]/width, bblock = left[b]/width;
