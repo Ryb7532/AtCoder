@@ -18,14 +18,14 @@ class Mo {
   vector<bool> v;
 
   public:
-    Mo(int n, int q) : width((int)sqrt(n)), order(q), v(n) {
+    Mo(int n, int q) : width(max<int>(1, n/max(1.0, sqrt(q*2.0/3.0)))), order(q), v(n) {
       rep(i,q) order[i] = i;
     }
 
     // add a query on [l,r)
     void add(int l, int r) {
-      left.push_back(l);
-      right.push_back(r);
+      left.emplace_back(l);
+      right.emplace_back(r);
     }
 
     // calcurate queries
@@ -38,16 +38,11 @@ class Mo {
         return right[a] > right[b];
       });
       int nl = 0, nr = 0;
-      auto push = [&](int idx) {
-        v[idx].flip();
-        if (v[idx]) add(idx);
-        else del(idx);
-      };
       for (auto idx: order) {
-        while (nl > left[idx]) push(--nl);
-        while (nr < right[idx]) push(nr++);
-        while (nl < left[idx]) push(nl++);
-        while (nr > right[idx]) push(--nr);
+        while (nl > left[idx]) add(--nl);
+        while (nr < right[idx]) add(nr++);
+        while (nl < left[idx]) del(nl++);
+        while (nr > right[idx]) del(--nr);
         rem(idx);
       }
     }
