@@ -2,8 +2,8 @@
 using namespace std;
 typedef long long ll;
 typedef long double ld;
-#define rep(i,n) for (int i=0; i<(int)n; i++)
-#define rrep(i,n) for (int i=(int)n-1; i>=0; i--)
+#define rep(i,n) for (int i=0; i<(int)(n); i++)
+#define rrep(i,n) for (int i=(int)(n)-1; i>=0; i--)
 #define print(a) cout << a << endl
 #define fix(n) fixed << setprecision(n)
 #define fill_c(c, n) setfill(c) << setw(n)
