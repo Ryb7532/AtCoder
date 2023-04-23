@@ -4,7 +4,7 @@ typedef long long ll;
 typedef long double ld;
 #define rep(i,s,e) assert(s <= e); for (int i=s; i<(int)(e); i++)
 #define repn(i,n) rep(i,0,n)
-#define rrep(i,s,e) assert(s>=e); for (int i=s-1; i>=e; i--)
+#define rrep(i,s,e) assert(s >= e); for (int i=s-1; i>=e; i--)
 #define rrepn(i,n) rrep(i,n,0)
 #define print(a) cout << a << endl
 #define fix(n) fixed << setprecision(n)
