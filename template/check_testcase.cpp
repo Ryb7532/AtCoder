@@ -43,6 +43,7 @@ int main(int argc, char *argv[]) {
     cout << "cannot open file: " << argv[2] << endl;
     return 1;
   }
+  const ld fp_error = 1e-9;
   string input1, input2;
   bool flag = true;
   while (true) {
@@ -65,7 +66,7 @@ int main(int argc, char *argv[]) {
       }
     } else if (p1.first <= 2 && p2.first <= 2) {
       ld f1 = p1.second.f, f2 = p2.second.f;
-      if (abs(f1-f2) > 1e-9 && abs(f1-f2)/f1 > 1e-9) {
+      if (abs(f1-f2) > fp_error && abs(f1-f2)/f1 > fp_error) {
         flag = false;
         break;
       }
