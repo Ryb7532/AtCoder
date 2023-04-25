@@ -16,9 +16,9 @@ do
   shift
 done
 
-printf "which problem?\n"
-read problem
-cd $problem
+printf "which task?\n"
+read task
+cd $task
 rm -f a.out
 g++ -Wall -std=c++17 -o a.out main.cpp
 export TIMEFORMAT="%Es"
@@ -41,5 +41,5 @@ do
 done
 
 if [ $FLAG_SUBMIT == 1 ]; then
-  echo $contest$problem | acc submit
+  echo $contest$task | acc submit
 fi
