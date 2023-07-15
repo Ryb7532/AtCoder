@@ -1,6 +1,7 @@
 #!/bin/bash
 
-OPT_CONFIG=""
+OPT_CONFIG="-c all"
+OPT_TEMPLATE="--template cpp"
 while (( $# > 0 ))
 do
   case $1 in
@@ -15,10 +16,6 @@ done
 
 printf "Which contest?\n"
 read contest
-acc login
 oj login https://beta.atcoder.jp/
-acc new $contest $OPT_CONFIG
-cp template/test.sh $contest/.
-cp template/check_testcase.out $contest/.
-chmod u+x $contest/test.sh
-cd $contest
+acc login
+acc new $contest $OPT_CONFIG $OPT_TEMPLATE
