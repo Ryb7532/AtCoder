@@ -1,9 +1,6 @@
-*
-
-!library/*
-!submissions/*/*
-!template/*/*
-!.gitignore
-!git_push.sh
-!project.sh
-!READMEmd
+*.log
+.vscode
+node_modules
+.node-version
+package*
+.python-version
