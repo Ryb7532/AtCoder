@@ -19,35 +19,20 @@ typedef long double ld;
 #define printyesno(f) cout << (f ? Yes : No) << endl
 
 int main() {
-  int N,Q;
-  cin >> N >> Q;
-  vector<ll> A(N+1);
-  vector<ll> B(N+1,0), C(N+1,0);
+  int N;
+  cin >> N;
+  set<string> seen;
+  int res = 0;
   rep(i,N) {
-    cin >> A[i];
-    B[i+1] = B[i]+A[i];
-    C[i+1] = C[i];
-    if (N%2 != i%2)
-      C[i+1] += A[i];
+    string S;
+    cin >> S;
+    if (seen.find(S) != seen.end())
+      continue;
+    res++;
+    seen.insert(S);
+    reverse(all(S));
+    seen.insert(S);
   }
-  A[N] = 2e9+5;
-  rep(_,Q) {
-    ll X;
-    cin >> X;
-    int l = 0, r = N;
-    while (r-l > 1) {
-      int m = (r+l)/2;
-      if (A[m] < X) {
-        l = m;
-        continue;
-      }
-      int lid = lower_bound(all(A), 2*X-A[m])-A.begin();
-      if (N-m-1 > m-lid)
-        l = m;
-      else
-        r = m;
-    }
-    print(C[max(0,2*r-N)]+B[N]-B[r]);
-  }
+  print(res);
   return 0;
 }

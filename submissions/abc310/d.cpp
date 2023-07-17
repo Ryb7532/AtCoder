@@ -18,36 +18,45 @@ typedef long double ld;
 #define No "No"
 #define printyesno(f) cout << (f ? Yes : No) << endl
 
-int main() {
-  int N,Q;
-  cin >> N >> Q;
-  vector<ll> A(N+1);
-  vector<ll> B(N+1,0), C(N+1,0);
-  rep(i,N) {
-    cin >> A[i];
-    B[i+1] = B[i]+A[i];
-    C[i+1] = C[i];
-    if (N%2 != i%2)
-      C[i+1] += A[i];
-  }
-  A[N] = 2e9+5;
-  rep(_,Q) {
-    ll X;
-    cin >> X;
-    int l = 0, r = N;
-    while (r-l > 1) {
-      int m = (r+l)/2;
-      if (A[m] < X) {
-        l = m;
-        continue;
-      }
-      int lid = lower_bound(all(A), 2*X-A[m])-A.begin();
-      if (N-m-1 > m-lid)
-        l = m;
-      else
-        r = m;
+int N,T,M;
+vector<set<int>> hate(10);
+vector<int> team_of(10, -1);
+ll res = 0;
+
+void dfs(int n, int t) {
+  if (n == N) {
+    if (t == T) {
+      res++;
     }
-    print(C[max(0,2*r-N)]+B[N]-B[r]);
+    return ;
   }
+  vector<bool> candidate_team(t, true);
+  for (auto m: hate[n]) {
+    candidate_team[team_of[m]] = false;
+  }
+  rep(i,t) {
+    if (!candidate_team[i])
+      continue;
+    team_of[n] = i;
+    dfs(n+1, t);
+    team_of[n] = -1;
+  }
+  team_of[n] = t;
+  dfs(n+1, t+1);
+  team_of[n] = -1;
+  return ;
+}
+
+int main() {
+  cin >> N >> T >> M;
+  rep(i,M) {
+    int A,B;
+    cin >> A >> B;
+    A--;
+    B--;
+    hate[B].insert(A);
+  }
+  dfs(0,0);
+  print(res);
   return 0;
 }
