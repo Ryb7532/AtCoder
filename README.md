@@ -7,14 +7,9 @@ User ID: Ryb7532
 主な使用言語: C++
 
 ## Directory / file
-
-### ~~`contest`~~
-
-~~開催中のコンテスト用テンプレート~~
-
 ### `library`
 
-よく使用するアルゴリズム／データ構造
+よく使用するアルゴリズム／データ構造  
 
 参考: https://ei1333.github.io/luzhiled/
 
@@ -28,17 +23,16 @@ acceptされた提出コード
 
 ### `template`
 
-テンプレートファイルまとめ  
+atcoder-cli用テンプレート  
 
-`test.sh` サンプルケースを自動でチェック，コードを提出  
-~~（完全一致のみ判定，コンテスト開催中は使えない？）~~
+`test.sh` サンプルケースの自動チェック＋コード提出  
 
-`check_testcase.cpp` サンプルケースの想定解と出力を比較  
+`check_testcase.cpp` サンプルケースの想定解と出力の比較  
 （浮動小数点数の誤差（絶対誤差，相対誤差どちらかが10^-9以下）判定も可能に）
 
 
 ### その他
-`project.sh` ~~過去問用の~~コンテストのディレクトリ作成とサンプルケースの取得  
+`project.sh` atcoder-cliの起動  
 参考: http://tatamo.81.la/blog/2018/12/07/atcoder-cli/
 
-`git_push.sh` コードの取得，gitへの追加，コミット，プッシュ
+`git_push.sh` コード取得＋git push  

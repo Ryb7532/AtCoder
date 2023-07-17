@@ -1,0 +1,10 @@
+{
+  "task":{
+    "program": ["main.cpp"],
+    "submit": "main.cpp"
+  },
+  "contest":{
+    "static": ["test.sh", "check_testcase.cpp"],
+    "cmd": "g++ check_testcase.cpp -o check_testcase.out"
+  }
+}

@@ -2,7 +2,7 @@
 
 !library/*
 !submissions/*/*
-!template/*
+!template/*/*
 !.gitignore
 !git_push.sh
 !project.sh
