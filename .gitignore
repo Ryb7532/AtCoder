@@ -1,6 +1,0 @@
-*.log
-.vscode
-node_modules
-.node-version
-package*
-.python-version
