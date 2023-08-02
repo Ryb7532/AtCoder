@@ -2,66 +2,68 @@
 using namespace std;
 typedef long long ll;
 #define rep(i, n) for (int i = 0; i < (int)(n); i++)
+#define rrep(i, n) for (int i=(int)n-1; i>=0; i--)
 
-template<typename Data, typename T>
+template<typename data_t, typename sum_t>
 class ReRooting {
   private:
-    struct Node { int to, rev; Data data; };
+    struct Edge { int to; data_t data; sum_t dp, ndp; };
     // Function to merge data
-    using F1 = function<T(T,T)>;
+    using F = function<sum_t(sum_t,sum_t)>;
     // Function to calculate the value of the subtree
-    using F2 = function<T(T,Data)>;
-    int n;
-    vector<vector<Node>> g;
-    vector<vector<T>> ldp, rdp;
-    vector<int> lptr, rptr;
-    const F1 f1;
-    const F2 f2;
-    const T ident;
+    using G = function<sum_t(sum_t,data_t)>;
 
-    T dfs(int id, int p) {
-      while (lptr[id] != p && lptr[id] < g[id].size()) {
-        int lp = lptr[id];
-        auto &e = g[id][lp];
-        ldp[id][lp + 1] = f1(ldp[id][lp], f2(dfs(e.to, e.rev), e.data));
-        lptr[id]++;
+    vector<vector<Edge>> g;
+    vector<sum_t> subdp, dp;
+    const F f1;
+    const G f2;
+    const sum_t ident;
+
+    void dfs_sub(int n, int p) {
+      for (auto &e: g[n]) {
+        if (e.to == p)
+          continue;
+        dfs_sub(e.to, n);
+        subdp[n] = f1(subdp[n], f2(subdp[e.to], e.data));
       }
-      while (rptr[id] != p && rptr[id] >= 0) {
-        int rp = rptr[id];
-        auto &e = g[id][rp];
-        rdp[id][rp] = f1(rdp[id][rp + 1], f2(dfs(e.to, e.rev), e.data));
-        rptr[id]--;
+    }
+
+    void dfs_all(int n, int p, const sum_t &top) {
+      sum_t buff{ident};
+      rep(i,g[n].size()) {
+        auto &e = g[n][i];
+        e.ndp = buff;
+        e.dp = f2(p == e.to ? top : subdp[e.to], e.data);
+        buff = f1(buff, e.dp);
       }
-      if (p < 0) return rdp[id][0];
-      return f1(ldp[id][p], rdp[id][p + 1]);
+      dp[n] = buff;
+      buff = ident;
+      rrep(i,g[n].size()) {
+        auto &e = g[n][i];
+        if(e.to != p)
+          dfs_all(e.to, n, f1(e.ndp, buff));
+        e.ndp = f1(e.ndp, buff);
+        buff = f1(buff, e.dp);
+      }
     }
 
   public:
-    ReRooting(int n, const F1 &f1, const F2 &f2, const &ident) :
-      n(n), g(n), ldp(n), rdp(n), lptr(n), rptr(n), f1(f1), f2(f2), ident(ident) {}
+    ReRooting(int n, const F &f1, const G &f2, const sum_t &ident) :
+      g(n), f1(f1), f2(f2), ident(ident), subdp(n, ident), dp(n, ident) {}
 
-    void add_edge(int u, int v, const Data &d) {
-      g[u].emplace_back({v, (int)g[v].size(), d});
-      g[v].emplace_back({u, (int)g[u].size()-1, d});
+    void add_edge(int u, int v, const data_t &d) {
+      g[u].emplace_back((Edge){v, d, ident, ident});
+      g[v].emplace_back((Edge){u, d, ident, ident});
     }
 
-    void add_edge_bi(int u, int v, const Data &d, const Data &e) {
-      g[u].emplace_back({v, (int)g[v].size(), d});
-      g[v].emplace_back({u, (int)g[u].size()-1, e});
+    void add_edge_bi(int u, int v, const data_t &d, const data_t &e) {
+      g[u].emplace_back((Edge){v, d, ident, ident});
+      g[v].emplace_back((Edge){u, e, ident, ident});
     }
 
-    vector<T> solve() {
-      rep(i,g.size()) {
-        int sz = g[i].size();
-        ldp[i].assign(sz + 1, ident);
-        rdp[i].assign(sz + 1, ident);
-        lptr[i] = 0;
-        rptr[i] = sz - 1;
-      }
-      vector<T> res;
-      rep(i,n) {
-        res.push_back(dfs(i, -1));
-      }
-      return res;
+    vector<sum_t> solve() {
+      dfs_sub(0,-1);
+      dfs_all(0,-1,ident);
+      return dp;
     }
 };
