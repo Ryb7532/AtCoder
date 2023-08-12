@@ -7,6 +7,7 @@ do
   case $1 in
     -c)
       OPT_CONFIG="-c inquire"
+      printf "Only selected tasks are created.\n"
       ;;
     -*)
       ;;
