@@ -32,7 +32,7 @@ vector<int> manacher(const string &s) {
   int i=0, j=0;
   while(i < l) {
     while (i-j>=0 && i+j<l && s[i-j]==s[i+j])
-      j+;
+      j++;
     radius[i] = j;
     int k = 1;
     while (i-k>=0 && i+k<l && k+radius[i-k]<j) {
