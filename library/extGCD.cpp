@@ -14,11 +14,3 @@ ll extGCD(ll a, ll b, ll &x, ll &y) {
   y -= a/b*x;
   return d;
 }
-
-
-ll GCD(ll a, ll b) {
-  if (b==0) {
-    return a;
-  }
-  return GCD(b, a%b);
-}
