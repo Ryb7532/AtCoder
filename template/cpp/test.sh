@@ -2,11 +2,15 @@
 contest="abc"
 
 FLAG_SUBMIT=1
+FLAG_FORCE_SUBMIT=0
 while (( $# > 0 ))
 do
   case $1 in
     -n)
       FLAG_SUBMIT=0
+      ;;
+    -f)
+      FLAG_FORCE_SUBMIT=1
       ;;
     -*)
       echo "invalid option"
@@ -40,6 +44,6 @@ do
   i=`expr $i + 1 `
 done
 
-if [ $FLAG_SUBMIT == 1 ]; then
+if [ $FLAG_SUBMIT == 1 ] || [ $FLAG_FORCE_SUBMIT == 1 ]; then
   echo $contest$task | acc submit
 fi
