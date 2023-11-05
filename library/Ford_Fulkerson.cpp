@@ -14,19 +14,12 @@ struct FordFulkerson {
     int idx;
   };
 
-  private:
+private:
   vector<vector<edge>> graph;
   vector<int> used;
   const flow_t INF;
   int timestamp;
 
-  public:
-  FordFulkerson(int n) : INF(numeric_limits<flow_t>::max()), timestamp(0) {
-    graph.resize(n);
-    used.assign(n, -1);
-  }
-
-  private:
   flow_t dfs(int idx, const int t, flow_t flow) {
     if(idx == t) return flow;
     used[idx] = timestamp;
@@ -43,7 +36,12 @@ struct FordFulkerson {
     return 0;
   }
 
-  public:
+public:
+  FordFulkerson(int n) : INF(numeric_limits<flow_t>::max()), timestamp(0) {
+    graph.resize(n);
+    used.assign(n, -1);
+  }
+
   void add_edge(int from, int to, flow_t cap, int idx = -1) {
     graph[from].emplace_back((edge) {to, cap, (int) graph[to].size(), false, idx});
     graph[to].emplace_back((edge) {from, 0, (int) graph[from].size()-1, true, idx});

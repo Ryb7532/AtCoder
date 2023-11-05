@@ -23,80 +23,80 @@ class RMQ {
     return a - sz;
   }
 
-  public:
-    RMQ(int n, const F f, const Monoid &M1) : f(f), M1(M1) {
-      sz = 1;
-      while(sz<n) sz <<= 1;
-      data.assign(2*sz, M1);
+public:
+  RMQ(int n, const F f, const Monoid &M1) : f(f), M1(M1) {
+    sz = 1;
+    while(sz<n) sz <<= 1;
+    data.assign(2*sz, M1);
+  }
+  // let k-th element as x
+  void set(int k, const Monoid &x) {
+    data[k+sz] = x;
+  }
+  // build the segment tree
+  void build() {
+    for(int k=sz-1; k>0; k--) {
+      data[k] = f(data[2*k], data[2*k+1]);
     }
-    // let k-th element as x
-    void set(int k, const Monoid &x) {
-      data[k+sz] = x;
+  }
+  // update k-th element to x
+  void update(int k, const Monoid &x) {
+    k += sz;
+    data[k] = x;
+    while(k>>=1) {
+      data[k] = f(data[2*k], data[2*k+1]);
     }
-    // build the segment tree
-    void build() {
-      for(int k=sz-1; k>0; k--) {
-        data[k] = f(data[2*k], data[2*k+1]);
-      }
+  }
+  // calculete f in [a,b)
+  Monoid query(int a, int b) {
+    Monoid L = M1, R = M1;
+    for(a += sz, b += sz; a < b; a >>= 1, b >>= 1) {
+      if(a & 1) L = f(L, data[a++]);
+      if(b & 1) R = f(data[--b], R);
     }
-    // update k-th element to x
-    void update(int k, const Monoid &x) {
-      k += sz;
-      data[k] = x;
-      while(k>>=1) {
-        data[k] = f(data[2*k], data[2*k+1]);
-      }
-    }
-    // calculete f in [a,b)
-    Monoid query(int a, int b) {
-      Monoid L = M1, R = M1;
-      for(a += sz, b += sz; a < b; a >>= 1, b >>= 1) {
-        if(a & 1) L = f(L, data[a++]);
-        if(b & 1) R = f(data[--b], R);
-      }
-      return f(L, R);
-    }
-    // get value of k-th (0<=k<sz)
-    Monoid operator[](const int &k) const {
-      return data[k+sz];
-    }
-    // return minimum x such that satisfy check in [a,x)
-    template< typename C >
-    int find_first(int a, const C &check) {
-      Monoid L = M1;
-      if(a <= 0) {
-        if(check(f(L, data[1]))) return find_subtree(1, check, L, false);
-        return -1;
-      }
-      int b = sz;
-      for(a += sz, b += sz; a < b; a >>= 1, b >>= 1) {
-        if(a & 1) {
-          Monoid nxt = f(L, data[a]);
-          if(check(nxt)) return find_subtree(a, check, L, false);
-          L = nxt;
-          ++a;
-        }
-      }
+    return f(L, R);
+  }
+  // get value of k-th (0<=k<sz)
+  Monoid operator[](const int &k) const {
+    return data[k+sz];
+  }
+  // return minimum x such that satisfy check in [a,x)
+  template< typename C >
+  int find_first(int a, const C &check) {
+    Monoid L = M1;
+    if(a <= 0) {
+      if(check(f(L, data[1]))) return find_subtree(1, check, L, false);
       return -1;
     }
-    // return maximum x such that satisfy check in [x,b)
-    template< typename C >
-    int find_last(int b, const C &check) {
-      Monoid R = M1;
-      if(b >= sz) {
-        if(check(f(data[1], R))) return find_subtree(1, check, R, true);
-        return -1;
+    int b = sz;
+    for(a += sz, b += sz; a < b; a >>= 1, b >>= 1) {
+      if(a & 1) {
+        Monoid nxt = f(L, data[a]);
+        if(check(nxt)) return find_subtree(a, check, L, false);
+        L = nxt;
+        ++a;
       }
-      int a = sz;
-      for(b += sz; a < b; a >>= 1, b >>= 1) {
-        if(b & 1) {
-          Monoid nxt = f(data[--b], R);
-          if(check(nxt)) return find_subtree(b, check, R, true);
-          R = nxt;
-        }
-      }
+    }
+    return -1;
+  }
+  // return maximum x such that satisfy check in [x,b)
+  template< typename C >
+  int find_last(int b, const C &check) {
+    Monoid R = M1;
+    if(b >= sz) {
+      if(check(f(data[1], R))) return find_subtree(1, check, R, true);
       return -1;
     }
+    int a = sz;
+    for(b += sz; a < b; a >>= 1, b >>= 1) {
+      if(b & 1) {
+        Monoid nxt = f(data[--b], R);
+        if(check(nxt)) return find_subtree(b, check, R, true);
+        R = nxt;
+      }
+    }
+    return -1;
+  }
 };
 
 
@@ -152,117 +152,117 @@ class RUQ {
     }
   }
 
-  public:
-    RUQ(int n, const F f, const G g, const H h, const Monoid &mi, const OperatorMonoid omi)
-        : n(n), f(f), g(g), h(h), mi(mi), omi(omi) {
-      sz = 1;
-      height = 0;
-      while(sz<n) sz <<= 1, height++;
-      data.assign(2*sz, mi);
-      lazy.assign(2*sz, omi);
-      length.assign(2*sz, 1);
+public:
+  RUQ(int n, const F f, const G g, const H h, const Monoid &mi, const OperatorMonoid omi)
+      : n(n), f(f), g(g), h(h), mi(mi), omi(omi) {
+    sz = 1;
+    height = 0;
+    while(sz<n) sz <<= 1, height++;
+    data.assign(2*sz, mi);
+    lazy.assign(2*sz, omi);
+    length.assign(2*sz, 1);
+  }
+  // let k-th element as x
+  void set(int k, const Monoid &x) {
+    data[k+sz] = x;
+  }
+  // build the segment tree
+  void build() {
+    for(int k=sz-1; k>0; k--) {
+      update(k);
+      length[k] = length[2*k] + length[2*k+1];
     }
-    // let k-th element as x
-    void set(int k, const Monoid &x) {
-      data[k+sz] = x;
+  }
+  // update the elements in range [a,b) by x
+  void update(int a, int b, const OperatorMonoid &x) {
+    if (b > n) b = n;
+    if (a >= b) return ;
+    thrust(a += sz, false);
+    thrust(b += sz, true);
+    for (int l = a, r = b; l < r; l >>= 1, r >>= 1) {
+      if (l & 1) apply(l++, x);
+      if (r & 1) apply(--r, x);
     }
-    // build the segment tree
-    void build() {
-      for(int k=sz-1; k>0; k--) {
-        update(k);
-        length[k] = length[2*k] + length[2*k+1];
-      }
+    updates(a, false);
+    updates(b, true);
+  }
+  // calculete f in [a,b)
+  Monoid query(int a, int b) {
+    if (b > n) b = n;
+    if (a >= b) return mi;
+    thrust(a += sz, false);
+    thrust(b += sz, true);
+    Monoid L = mi, R = mi;
+    int ll = 0, lr = 0;
+    for(int l = a, r = b; l < r; l >>= 1, r >>= 1) {
+      if(l & 1) L = f(L, data[l], ll, length[l]), ll += length[l], l++;
+      if(r & 1) --r, R = f(data[r], R, length[r], lr), lr += length[r];
     }
-    // update the elements in range [a,b) by x
-    void update(int a, int b, const OperatorMonoid &x) {
-      if (b > n) b = n;
-      if (a >= b) return ;
-      thrust(a += sz, false);
-      thrust(b += sz, true);
-      for (int l = a, r = b; l < r; l >>= 1, r >>= 1) {
-        if (l & 1) apply(l++, x);
-        if (r & 1) apply(--r, x);
-      }
-      updates(a, false);
-      updates(b, true);
-    }
-    // calculete f in [a,b)
-    Monoid query(int a, int b) {
-      if (b > n) b = n;
-      if (a >= b) return mi;
-      thrust(a += sz, false);
-      thrust(b += sz, true);
-      Monoid L = mi, R = mi;
-      int ll = 0, lr = 0;
-      for(int l = a, r = b; l < r; l >>= 1, r >>= 1) {
-        if(l & 1) L = f(L, data[l], ll, length[l]), ll += length[l], l++;
-        if(r & 1) --r, R = f(data[r], R, length[r], lr), lr += length[r];
-      }
-      return f(L, R, ll, lr);
-    }
-    // get k-th element (0<=k<sz)
-    Monoid operator[](const int &k) {
-      return query(k, k+1);
-    }
-    // return minimum x such that satisfy "check" in [a,x)
-    template< typename C >
-    int find_first(int a, const C &check) {
-      if (a >= n) return n;
-      thrust(a += sz, false);
-      Monoid L = mi;
-      int ll = 0;
-      do {
-        while ((a&1) == 0) a >>= 1;
-        Monoid nxt = f(L, data[a], ll, length[a]);
-        if(check(nxt)) {
-          while (a < sz) {
-            propagate(a);
-            a <<= 1;
-            nxt = f(L, data[a], ll, length[a]);
-            if (!check(nxt)) {
-              L = nxt;
-              ll += length[a];
-              a++;
-            }
+    return f(L, R, ll, lr);
+  }
+  // get k-th element (0<=k<sz)
+  Monoid operator[](const int &k) {
+    return query(k, k+1);
+  }
+  // return minimum x such that satisfy "check" in [a,x)
+  template< typename C >
+  int find_first(int a, const C &check) {
+    if (a >= n) return n;
+    thrust(a += sz, false);
+    Monoid L = mi;
+    int ll = 0;
+    do {
+      while ((a&1) == 0) a >>= 1;
+      Monoid nxt = f(L, data[a], ll, length[a]);
+      if(check(nxt)) {
+        while (a < sz) {
+          propagate(a);
+          a <<= 1;
+          nxt = f(L, data[a], ll, length[a]);
+          if (!check(nxt)) {
+            L = nxt;
+            ll += length[a];
+            a++;
           }
-          return a + 1 - sz;
         }
-        L = nxt;
-        ll += length[a];
-        a++;
-      } while ((a & -a) != a);
-      return n;
-    }
-    // return maximum x such that satisfy "check" in [x,b)
-    template< typename C >
-    int find_last(int b, const C &check) {
-      if (b <= 0) return -1;
-      thrust(b += sz, true);
-      Monoid R = mi;
-      int lr = 0;
-      b++;
-      do {
-        b--;
-        while (b > 1 && (b&1)) b >>= 1;
-        Monoid nxt = f(data[b], R, length[b], lr);
-        if(check(nxt)) {
-          while (b < sz) {
-            propagate(b);
-            b = (b << 1) + 1;
-            nxt = f(data[b], R, length[b], lr);
-            if (!check(nxt)) {
-              R = nxt;
-              lr += length[b];
-              b--;
-            }
+        return a + 1 - sz;
+      }
+      L = nxt;
+      ll += length[a];
+      a++;
+    } while ((a & -a) != a);
+    return n;
+  }
+  // return maximum x such that satisfy "check" in [x,b)
+  template< typename C >
+  int find_last(int b, const C &check) {
+    if (b <= 0) return -1;
+    thrust(b += sz, true);
+    Monoid R = mi;
+    int lr = 0;
+    b++;
+    do {
+      b--;
+      while (b > 1 && (b&1)) b >>= 1;
+      Monoid nxt = f(data[b], R, length[b], lr);
+      if(check(nxt)) {
+        while (b < sz) {
+          propagate(b);
+          b = (b << 1) + 1;
+          nxt = f(data[b], R, length[b], lr);
+          if (!check(nxt)) {
+            R = nxt;
+            lr += length[b];
+            b--;
           }
-          return b - sz;
         }
-        R = nxt;
-        lr += length[b];
-      } while ((b & -b) != b);
-      return -1;
-    }
+        return b - sz;
+      }
+      R = nxt;
+      lr += length[b];
+    } while ((b & -b) != b);
+    return -1;
+  }
 };
 
 
@@ -304,59 +304,59 @@ class Seg2D {
              query(a, b, RR[k][x], RR[k][y], 2 * k + 1, (l + r) >> 1, r));
   }
 
-  public:
-    // let n is height
-    Seg2D(int n, const F &f, const G &g, const H &h, const get_t &identity)
-        : f(f), g(g), h(h), identity(identity) {
-      sz = 1;
-      while(sz < n) sz <<= 1;
-      beet.resize(2 * sz);
-      LL.resize(2 * sz);
-      RR.resize(2 * sz);
+public:
+  // let n is height
+  Seg2D(int n, const F &f, const G &g, const H &h, const get_t &identity)
+      : f(f), g(g), h(h), identity(identity) {
+    sz = 1;
+    while(sz < n) sz <<= 1;
+    beet.resize(2 * sz);
+    LL.resize(2 * sz);
+    RR.resize(2 * sz);
+  }
+  // predefine x,y that is updated
+  void preupdate(int x, int y) {
+    beet[x + sz].push_back(y);
+  }
+  // build the two-dimentional segment tree
+  void build() {
+    // sort and remove duplicate elements
+    for(int k = (int) beet.size() - 1; k >= sz; k--) {
+      sort(begin(beet[k]), end(beet[k]));
+      beet[k].erase(unique(begin(beet[k]), end(beet[k])), end(beet[k]));
     }
-    // predefine x,y that is updated
-    void preupdate(int x, int y) {
-      beet[x + sz].push_back(y);
-    }
-    // build the two-dimentional segment tree
-    void build() {
-      // sort and remove duplicate elements
-      for(int k = (int) beet.size() - 1; k >= sz; k--) {
-        sort(begin(beet[k]), end(beet[k]));
-        beet[k].erase(unique(begin(beet[k]), end(beet[k])), end(beet[k]));
+    for(int k = sz - 1; k > 0; k--) {
+      // merge its children's arrays and remove duplicate elements (sorted)
+      beet[k].resize(beet[2 * k + 0].size() + beet[2 * k + 1].size());
+      merge(begin(beet[2 * k + 0]), end(beet[2 * k + 0]), begin(beet[2 * k + 1]), end(beet[2 * k + 1]), begin(beet[k]));
+      beet[k].erase(unique(begin(beet[k]), end(beet[k])), end(beet[k]));
+      // calculate LL and RR
+      LL[k].resize(beet[k].size() + 1);
+      RR[k].resize(beet[k].size() + 1);
+      int tail1 = 0, tail2 = 0;
+      for(int i = 0; i < beet[k].size(); i++) {
+        while(tail1 < beet[2 * k + 0].size() && beet[2 * k + 0][tail1] < beet[k][i]) ++tail1;
+        while(tail2 < beet[2 * k + 1].size() && beet[2 * k + 1][tail2] < beet[k][i]) ++tail2;
+        LL[k][i] = tail1, RR[k][i] = tail2;
       }
-      for(int k = sz - 1; k > 0; k--) {
-        // merge its children's arrays and remove duplicate elements (sorted)
-        beet[k].resize(beet[2 * k + 0].size() + beet[2 * k + 1].size());
-        merge(begin(beet[2 * k + 0]), end(beet[2 * k + 0]), begin(beet[2 * k + 1]), end(beet[2 * k + 1]), begin(beet[k]));
-        beet[k].erase(unique(begin(beet[k]), end(beet[k])), end(beet[k]));
-        // calculate LL and RR
-        LL[k].resize(beet[k].size() + 1);
-        RR[k].resize(beet[k].size() + 1);
-        int tail1 = 0, tail2 = 0;
-        for(int i = 0; i < beet[k].size(); i++) {
-          while(tail1 < beet[2 * k + 0].size() && beet[2 * k + 0][tail1] < beet[k][i]) ++tail1;
-          while(tail2 < beet[2 * k + 1].size() && beet[2 * k + 1][tail2] < beet[k][i]) ++tail2;
-          LL[k][i] = tail1, RR[k][i] = tail2;
-        }
-        LL[k][beet[k].size()] = (int) beet[2 * k + 0].size();
-        RR[k][beet[k].size()] = (int) beet[2 * k + 1].size();
-      }
-      for(int k = 0; k < beet.size(); k++) {
-        seg.emplace_back(structure_t(beet[k].size()));
-      }
+      LL[k][beet[k].size()] = (int) beet[2 * k + 0].size();
+      RR[k][beet[k].size()] = (int) beet[2 * k + 1].size();
     }
-    // update the element in x,y by z
-    void update(int x, int y, update_t z) {
-      y = lower_bound(begin(beet[1]), end(beet[1]), y) - begin(beet[1]);
-      return update(x, y, z, 1, 0, sz);
+    for(int k = 0; k < beet.size(); k++) {
+      seg.emplace_back(structure_t(beet[k].size()));
     }
-    // calculete f in [a,b)x[x,y)
-    get_t query(int a, int b, int x, int y) {
-      x = lower_bound(begin(beet[1]), end(beet[1]), x) - begin(beet[1]);
-      y = lower_bound(begin(beet[1]), end(beet[1]), y) - begin(beet[1]);
-      return query(a, b, x, y, 1, 0, sz);
-    }
+  }
+  // update the element in x,y by z
+  void update(int x, int y, update_t z) {
+    y = lower_bound(begin(beet[1]), end(beet[1]), y) - begin(beet[1]);
+    return update(x, y, z, 1, 0, sz);
+  }
+  // calculete f in [a,b)x[x,y)
+  get_t query(int a, int b, int x, int y) {
+    x = lower_bound(begin(beet[1]), end(beet[1]), x) - begin(beet[1]);
+    y = lower_bound(begin(beet[1]), end(beet[1]), y) - begin(beet[1]);
+    return query(a, b, x, y, 1, 0, sz);
+  }
 };
 
 // examples
@@ -425,74 +425,74 @@ class Seg2D_RUPQ {
   }
 
 
-  public:
-    // let n is height
-    Seg2D_RUPQ(int n, const F &f, const G &g, const H &h, const get_t &identity)
-        : f(f), g(g), h(h), identity(identity) {
-      sz = 1;
-      while(sz < n) sz <<= 1;
-      beet.resize(2 * sz);
-      LL.resize(2 * sz);
-      RR.resize(2 * sz);
-    }
-    // predefine [a,b)x[x,y) that is updated
-    void preupdate(int a, int b, int x, int y) {
-      a += sz;
-      b += sz;
-      for (int l = a, r = b; l < r; l >>= 1, r >>= 1) {
-        if (l & 1) {
-          beet[l].push_back(x);
-          beet[l].push_back(y);
-          l++;
-        }
-        if (r & 1) {
-          r--;
-          beet[r].push_back(x);
-          beet[r].push_back(y);
-        }
+public:
+  // let n is height
+  Seg2D_RUPQ(int n, const F &f, const G &g, const H &h, const get_t &identity)
+      : f(f), g(g), h(h), identity(identity) {
+    sz = 1;
+    while(sz < n) sz <<= 1;
+    beet.resize(2 * sz);
+    LL.resize(2 * sz);
+    RR.resize(2 * sz);
+  }
+  // predefine [a,b)x[x,y) that is updated
+  void preupdate(int a, int b, int x, int y) {
+    a += sz;
+    b += sz;
+    for (int l = a, r = b; l < r; l >>= 1, r >>= 1) {
+      if (l & 1) {
+        beet[l].push_back(x);
+        beet[l].push_back(y);
+        l++;
+      }
+      if (r & 1) {
+        r--;
+        beet[r].push_back(x);
+        beet[r].push_back(y);
       }
     }
-    // build the two-dimentional segment tree
-    void build() {
-      // sort and remove duplicate elements
-      for(int k = (int) beet.size() - 1; k > 0; k--) {
-        sort(begin(beet[k]), end(beet[k]));
-        beet[k].erase(unique(begin(beet[k]), end(beet[k])), end(beet[k]));
-      }
-      for(int k = sz - 1; k > 0; k--) {
-        // merge itself and its children's arrays, and remove duplicate elements (sorted)
-        beet[k].resize(beet[k].size() + beet[2 * k + 0].size());
-        merge(begin(beet[k]), end(beet[k]), begin(beet[2 * k + 0]), end(beet[2 * k + 0]), begin(beet[k]));
-        beet[k].resize(beet[k].size() + beet[2 * k + 1].size());
-        merge(begin(beet[k]), end(beet[k]), begin(beet[2 * k + 1]), end(beet[2 * k + 1]), begin(beet[k]));
-        beet[k].erase(unique(begin(beet[k]), end(beet[k])), end(beet[k]));
-        // calculate LL and RR
-        LL[k].resize(beet[k].size() + 1);
-        RR[k].resize(beet[k].size() + 1);
-        int tail1 = 0, tail2 = 0;
-        for(int i = 0; i < beet[k].size(); i++) {
-          while(tail1 < beet[2 * k + 0].size() && beet[2 * k + 0][tail1] < beet[k][i]) ++tail1;
-          while(tail2 < beet[2 * k + 1].size() && beet[2 * k + 1][tail2] < beet[k][i]) ++tail2;
-          LL[k][i] = tail1, RR[k][i] = tail2;
-        }
-        LL[k][beet[k].size()] = (int) beet[2 * k + 0].size();
-        RR[k][beet[k].size()] = (int) beet[2 * k + 1].size();
-      }
-      for(int k = 0; k < beet.size(); k++) {
-        seg.emplace_back(structure_t(beet[k].size()));
-      }
+  }
+  // build the two-dimentional segment tree
+  void build() {
+    // sort and remove duplicate elements
+    for(int k = (int) beet.size() - 1; k > 0; k--) {
+      sort(begin(beet[k]), end(beet[k]));
+      beet[k].erase(unique(begin(beet[k]), end(beet[k])), end(beet[k]));
     }
-    // update the elements in range [a,b)x[x,y) by z
-    void range_update(int a, int b, int x, int y, update_t z) {
-      x = lower_bound(begin(beet[1]), end(beet[1]), x) - begin(beet[1]);
-      y = lower_bound(begin(beet[1]), end(beet[1]), y) - begin(beet[1]);
-      return update(a, b, x, y, z, 1, 0, sz);
+    for(int k = sz - 1; k > 0; k--) {
+      // merge itself and its children's arrays, and remove duplicate elements (sorted)
+      beet[k].resize(beet[k].size() + beet[2 * k + 0].size());
+      merge(begin(beet[k]), end(beet[k]), begin(beet[2 * k + 0]), end(beet[2 * k + 0]), begin(beet[k]));
+      beet[k].resize(beet[k].size() + beet[2 * k + 1].size());
+      merge(begin(beet[k]), end(beet[k]), begin(beet[2 * k + 1]), end(beet[2 * k + 1]), begin(beet[k]));
+      beet[k].erase(unique(begin(beet[k]), end(beet[k])), end(beet[k]));
+      // calculate LL and RR
+      LL[k].resize(beet[k].size() + 1);
+      RR[k].resize(beet[k].size() + 1);
+      int tail1 = 0, tail2 = 0;
+      for(int i = 0; i < beet[k].size(); i++) {
+        while(tail1 < beet[2 * k + 0].size() && beet[2 * k + 0][tail1] < beet[k][i]) ++tail1;
+        while(tail2 < beet[2 * k + 1].size() && beet[2 * k + 1][tail2] < beet[k][i]) ++tail2;
+        LL[k][i] = tail1, RR[k][i] = tail2;
+      }
+      LL[k][beet[k].size()] = (int) beet[2 * k + 0].size();
+      RR[k][beet[k].size()] = (int) beet[2 * k + 1].size();
     }
-    // get the element in x,y
-    get_t point_query(int x, int y) {
-      y = lower_bound(begin(beet[1]), end(beet[1]), y) - begin(beet[1]);
-      return point_query(x, y, 1, 0, sz);
+    for(int k = 0; k < beet.size(); k++) {
+      seg.emplace_back(structure_t(beet[k].size()));
     }
+  }
+  // update the elements in range [a,b)x[x,y) by z
+  void range_update(int a, int b, int x, int y, update_t z) {
+    x = lower_bound(begin(beet[1]), end(beet[1]), x) - begin(beet[1]);
+    y = lower_bound(begin(beet[1]), end(beet[1]), y) - begin(beet[1]);
+    return update(a, b, x, y, z, 1, 0, sz);
+  }
+  // get the element in x,y
+  get_t point_query(int x, int y) {
+    y = lower_bound(begin(beet[1]), end(beet[1]), y) - begin(beet[1]);
+    return point_query(x, y, 1, 0, sz);
+  }
 };
 
 // examples
