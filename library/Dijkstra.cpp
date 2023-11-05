@@ -1,36 +1,50 @@
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
+#define all(v) v.begin(), v.end()
+
 
 // Task: Single Source Shortest Path Problem
 // Dijkstra (no minus cost path)
-const int MAX_V = 1000;
-const ll INF = 1LL << 50;
-typedef struct{
-  int to;
-  ll cost;
-} Edge;
-typedef pair<ll, int> P; // first:dis second:num
+class Dijkstra {
+  int N;
+  vector<ll> dist;
+  using P = pair<ll,int>;
+  vector<vector<P>> edge;
 
-vector<ll> d(MAX_V, INF);
-vector<vector<Edge>> G(MAX_V);
+public:
+  const ll INF = 1e9;
 
-void dijkstra(int s) {
-  d[s] = 0;
+  Dijkstra(int n) : N(n), dist(N), edge(N) {}
 
-  priority_queue<P, vector<P>, greater<P>> que;
-  que.push(P(0, s));
-  while (!que.empty()) {
-    P p = que.top();
-    que.pop();
-    int v = p.second;
-    if (d[v] < p.first)
-      continue;
-    for (auto &e: G[v]) {
-      if (d[e.to] > d[v]+e.cost) {
-        d[e.to] = d[v]+e.cost;
-        que.push(P(d[e.to], e.to));
+  void add_edge(int a, int b, ll c) {
+    assert(c >= 0);
+    edge[a].push_back({c,b});
+  }
+
+  void add_biedge(int a, int b, ll c) {
+    add_edge(a,b,c);
+    add_edge(b,a,c);
+  }
+
+  void solve(int s) {
+    fill(all(dist), INF);
+    dist[s] = 0;
+    priority_queue<P,vector<P>,greater<P>> q;
+    q.push({0,s});
+    while (!q.empty()) {
+      auto [d,u] = q.top();
+      q.pop();
+      if (dist[u] < d)
+        continue;
+      for (auto [c,v]: edge[u]) {
+        if (dist[v] > dist[u]+c) {
+          dist[v] = dist[u]+c;
+          q.push({dist[v],v});
+        }
       }
     }
   }
-}
+
+  ll get_dist(int d) { return dist[d]; }
+};

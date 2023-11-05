@@ -5,21 +5,37 @@ typedef long long ll;
 
 // Task: All Pair Shortest Path Problem
 // Warshall-Floyd Algorithm
-const int MAX_V = 100;
-const ll INF = 1e9;
-int V;
-ll d[MAX_V][MAX_V];
+class WarshallFloyd {
+  int N;
+  vector<ll> dist;
 
-void init() {
-  rep(i, V)
-    rep(j, V)
-      if (i != j)
-        d[i][j] = INF;
-}
+public:
+  const ll INF = 1e9;
 
-void warshall_floyd() {
-  rep(k, V)
-    rep(i, V)
-      rep(j, V)
-        d[i][j] = min(d[i][j], d[i][k]+d[k][j]);
-}
+  WarshallFloyd(int n) : N(n), dist(N*N,INF) {
+    rep(i,N)
+      dist[i*N+i] = 0;
+  }
+
+  void add_edge(int a, int b, ll c) { dist[a*N+b] = c; }
+
+  void add_biedge(int a, int b, ll c, int d=1) {
+    add_edge(a,b,c);
+    add_edge(b,a,d*c);
+  }
+
+  bool solve() {
+    rep(k,N)
+      rep(i,N)
+        rep(j,N)
+          dist[i*N+j] = min(dist[i*N+j], dist[i*N+k]+dist[k*N+j]);
+    bool flag = true;
+    rep(i,N) {
+      if (dist[i*N+i] < 0)
+        flag = false;
+    }
+    return flag;
+  }
+
+  ll get_dist(int s, int d) { return dist[s*N+d]; }
+};

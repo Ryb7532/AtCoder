@@ -1,11 +1,41 @@
 #include <bits/stdc++.h>
 using namespace std;
+#define rep(i, n) for (int i = 0; i < (n); i++)
 
 
 int H, W;
-vector<int> dx = {-1,0,1,0}, dy = {0,-1,0,1};
-// vector<int> dx = {-1,-1,-1,0,1,1,1,0}, dy = {1,0,-1,-1,-1,0,1,1};
+int dx4[] = {-1,0,1,0}, dy4[] = {0,-1,0,1};
+int dx8[] = {-1,-1,-1,0,1,1,1,0}, dy8[] = {1,0,-1,-1,-1,0,1,1};
+struct Grid {
+  int x;
+  int y;
+  Grid(int x=0, int y=0) : x(x), y(y) {}
 
-pair<int,int> newPos(int x, int y, int id, int step=1) {return {x+step*dx[id], y+step*dy[id]};}
+  bool isRange() { return 0<=x && x<H && 0<=y && y<W; }
 
-bool isRange(int h, int w) {return h>=0 && h<H && w>=0 && w<W;}
+  vector<Grid> newPos(int step=1) {
+    vector<Grid> res;
+    rep(i,4) {
+      res.emplace_back(Grid(x+step*dx4[i], y+step*dy4[i]));
+    }
+    return res;
+  }
+
+  vector<Grid> newPos_8(int step=1) {
+    vector<Grid> res;
+    rep(i,8) {
+      res.emplace_back(Grid(x+step*dx8[i], y+step*dy8[i]));
+    }
+    return res;
+  }
+
+  bool operator==(const Grid &g) const { return x==g.x && y==g.y; }
+  bool operator!=(const Grid &g) const { return x!=g.x || y!=g.y; }
+  friend ostream &operator<<(ostream &os, const Grid &g) { return os << g.x << " " << g.y; }
+  friend istream &operator>>(istream &is, Grid &g) {
+    int a,b;
+    is >> a >> b;
+    g = Grid(a,b);
+    return (is);
+  }
+};

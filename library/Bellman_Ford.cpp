@@ -2,33 +2,53 @@
 using namespace std;
 typedef long long ll;
 #define rep(i, n) for (int i = 0; i < (n); i++)
+#define all(v) v.begin(), v.end()
+
 
 // Task: Single Source Shortest Path Problem
 // Bellman-Ford Algorithm
-const int MAX_V = 1000;
-const ll INF = 1e9;
-typedef struct{
-  int from;
-  int to;
-  ll cost;
-} Edge;
+class BellmanFord {
+  int N, E;
+  vector<ll> dist;
+  vector<int> src, dst;
+  vector<ll> cost;
 
-int V, E;
-ll d[MAX_V];
-vector<Edge> edge;
+public:
+  const ll INF = 1e9;
 
-bool bellman_ford(int s) {
-  fill(d, d+V, INF);
-  d[s] = 0;
-  rep(i,V) {
-    rep(j,E) {
-      Edge e = edge[j];
-      if (d[e.to] > d[e.from]+e.cost) {
-        d[e.to] = d[e.from] + e.cost;
-        if (i == V-1)
-          return true;
+  BellmanFord(int n) : N(n), dist(n) {}
+
+  void add_edge(int a, int b, ll c) {
+    src.push_back(a);
+    dst.push_back(b);
+    cost.push_back(c);
+    E++;
+  }
+
+  void add_biedge(int a, int b, ll c, int d=1) {
+    add_edge(a,b,c);
+    add_edge(b,a,d*c);
+  }
+
+  bool solve(int s) {
+    fill(all(dist), INF);
+    dist[s] = 0;
+    int cnt = 0;
+    bool updated = true;
+    while (updated) {
+      updated = false;
+      cnt++;
+      rep(i,E) {
+        if (dist[dst[i]] > dist[src[i]]+cost[i]) {
+          dist[dst[i]] = dist[src[i]]+cost[i];
+          updated = true;
+          if (cnt == N)
+            return false;
+        }
       }
     }
+    return true;
   }
-  return false;
-}
+
+  ll get_dist(int d) { return dist[d]; }
+};
