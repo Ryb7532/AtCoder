@@ -1,41 +1,40 @@
 #include <bits/stdc++.h>
 using namespace std;
-typedef long long ll;
 #define rep(i,n) for (int i=0; i<(n); i++)
 
 
-const int MV = 1e5;
-int V;
-vector<int> edge[MV];
-vector<int> res;
-vector<int> indg(MV);
-stack<int> st; // 0 indegree
+// Topological Sort
+class Tsort {
+  int N;
+  vector<vector<int>> edge;
+  vector<int> res, indg;
+  stack<int> st;
 
+public:
+  Tsort(int n) : N(n), indg(N), edge(N) {}
 
-void init(int e) {
-  rep(i,e) {
-    int a,b;
-    cin >> a >> b;
-    a--; b--;
+  void add_edge(int a, int b) {
     edge[a].push_back(b);
     indg[b]++;
   }
-  rep(i,V) {
-    if (indg[i] == 0)
-      st.push(i);
-  }
-}
 
-// Topological sort
-void tsort() {
-  while (!st.empty()) {
-    int n = st.top();
-    st.pop();
-    res.push_back(n);
-    for (auto e : edge[n]) {
-      indg[e]--;
-      if (indg[e] == 0)
-        st.push(e);
+  vector<int> get_edges(int a) { return edge[a]; }
+
+  bool sort(vector<int> &res) {
+    rep(i,N) {
+      if (indg[i] == 0)
+        st.push(i);
     }
+    while (!st.empty()) {
+      int u = st.top();
+      st.pop();
+      res.push_back(u);
+      for (int v: edge[u]) {
+        indg[v]--;
+        if (indg[v] == 0)
+          st.push(v);
+      }
+    }
+    return res.size() == N;
   }
-}
+};
