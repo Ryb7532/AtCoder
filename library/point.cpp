@@ -35,6 +35,10 @@ struct Point {
     y_2 = (y-p.y)*(y-p.y);
     return sqrtl(x_2+y_2);
   }
+  ld arg() {
+    assert(x != 0 && y != 0);
+    return atan2(y,x);
+  }
 };
 
 // Judge whether three points are on a line.
