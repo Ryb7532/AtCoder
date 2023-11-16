@@ -7,10 +7,11 @@ using namespace std;
 class Tsort {
   int N;
   vector<vector<int>> edge;
-  vector<int> res, indg;
+  vector<int> indg;
   stack<int> st;
 
 public:
+  vector<int> sorted;
   Tsort(int n) : N(n), indg(N), edge(N) {}
 
   void add_edge(int a, int b) {
@@ -20,7 +21,7 @@ public:
 
   vector<int> get_edges(int a) { return edge[a]; }
 
-  bool sort(vector<int> &res) {
+  bool sort() {
     rep(i,N) {
       if (indg[i] == 0)
         st.push(i);
@@ -28,13 +29,15 @@ public:
     while (!st.empty()) {
       int u = st.top();
       st.pop();
-      res.push_back(u);
+      sorted.push_back(u);
       for (int v: edge[u]) {
         indg[v]--;
         if (indg[v] == 0)
           st.push(v);
       }
     }
-    return res.size() == N;
+    return sorted.size() == N;
   }
+
+  int operator[](int &id) { return sorted[id]; }
 };

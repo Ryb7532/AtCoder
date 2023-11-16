@@ -11,7 +11,7 @@ using val = struct{
 
 pair<int,val> parse(const string &input) {
   static const regex floatRegex{R"([+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?)"};
-  static const regex integerRegex{R"(\d+)"};
+  static const regex integerRegex{R"([+\-]?\d+)"};
   istringstream inputStream(input);
 
   int t = 3;
@@ -31,16 +31,16 @@ pair<int,val> parse(const string &input) {
 
 int main(int argc, char *argv[]) {
   if (argc < 3) {
-    cout << "fewer arguments." << endl;
+    cerr << "fewer arguments." << endl;
     return 1;
   }
   ifstream fin1(argv[1]), fin2(argv[2]);
   if (fin1.fail()) {
-    cout << "cannot open file: " << argv[1] << endl;
+    cerr << "cannot open file: " << argv[1] << endl;
     return 1;
   }
   if (fin2.fail()) {
-    cout << "cannot open file: " << argv[2] << endl;
+    cerr << "cannot open file: " << argv[2] << endl;
     return 1;
   }
   const ld fp_error = 1e-9;
