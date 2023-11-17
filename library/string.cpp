@@ -142,6 +142,21 @@ public:
     buildLCP();
     buildRMQ();
   }
+    SuffixArrayIS(const vector<int> &v) : N(v.size()+1) {
+    S = new int[N];
+    sa = new int[N];
+    int m = INT_MAX, M = INT_MIN;
+    rep(i,N-1) {
+      S[i] = v[i];
+      m = min(m,v[i]);
+      M = max(M,v[i]);
+    }
+    S[N-1] = --m;
+    int NB = M-m+1;
+    buildSA(sa, S, N, NB);
+    buildLCP();
+    buildRMQ();
+  }
   int common_prefix(int a, int b) {
     if (a == b) return N-1-a;
     if (b >= N-1) return 0;
@@ -154,12 +169,11 @@ public:
 
 // Task: Maximum Common Length between prefix and suffix of S[0:i] (0<=i<|S|)
 // KMP Algorithm (O(|S|))
-struct KMP {
+class KMP {
   int N;
-  string S;
-  vector<int> res, path;
+  vector<int> S, res, path;
 
-  KMP(const string &s) : N(s.size()), S(s), res(N+1,-1), path(N+1,-1) {
+  void solve() {
     int j = -1;
     rep(i,N) {
       while (j >= 0 && S[i] != S[j]) {
@@ -171,18 +185,28 @@ struct KMP {
         path[i+1] = path[j];
     }
   }
+
+public:
+  KMP(const string &s) : N(s.size()), S(N), res(N+1,-1), path(N+1,-1) {
+    rep(i,N) {
+      S[i] = (int)s[i];
+    }
+    solve();
+  }
+  KMP(const vector<int> &v) : N(v.size()), S(v), res(N+1,-1), path(N+1,-1) {
+    solve();
+  }
   int operator[](const int &i) const { return res[i+1]; }
 };
 
 
 // Task: Maximum Common Prefix Length between S[0:|S|-1] and S[i:|S|-1] (0<=i<|S|)
 // Z-Algorithm (O(|S|))
-struct LongestCommonPrefix {
+class LongestCommonPrefix {
   int N;
-  string S;
-  vector<int> prefix;
+  vector<int> S, prefix;
 
-  LongestCommonPrefix(const string &s) : N(s.size()), S(s), prefix(N,0) {
+  void solve() {
     for (int i=1, j=0; i<N; i++) {
       if (i-j + prefix[i-j] < prefix[j])
         prefix[i] = prefix[i-j];
@@ -195,6 +219,17 @@ struct LongestCommonPrefix {
       }
     }
     prefix[0] = N;
+  }
+
+public:
+  LongestCommonPrefix(const string &s) : N(s.size()), S(N), prefix(N,0) {
+    rep(i,N) {
+      S[i] = (int)s[i];
+    }
+    solve();
+  }
+  LongestCommonPrefix(const vector<int> &v) : N(v.size()), S(v), prefix(N,0) {
+    solve();
   }
   int operator[](const int &i) const { return prefix[i]; }
 };
