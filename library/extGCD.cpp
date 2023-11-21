@@ -2,15 +2,21 @@
 using namespace std;
 typedef long long ll;
 
-// Task: Compute GCD(a,b)(=d) and a particular solution of a * x + b * y = d
+// Task: Compute GCD(a,b)(=g) and a particular solution of a * x + b * y = g
 // Extended Euclidean Algorithm
-ll extGCD(ll a, ll b, ll &x, ll &y) {
-  if (b==0) {
-    x = 1;
-    y = 0;
-    return a;
+struct GCD {
+  ll x,y,g;
+
+  void solve(ll a, ll b) {
+    if (b == 0) {
+      x = 1, y = 0;
+      g = a;
+      return ;
+    }
+    solve(b, a%b);
+    swap(x,y);
+    y -= a/b*x;
   }
-  ll d = extGCD(b, a%b, y, x);
-  y -= a/b*x;
-  return d;
+
+  GCD(ll a=0, ll b=0) { solve(a,b); }
 }

@@ -46,5 +46,5 @@ public:
     }
   }
 
-  ll get_dist(int d) { return dist[d]; }
+  ll &operator[](const int d) { return dist[d]; }
 };

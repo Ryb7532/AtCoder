@@ -196,7 +196,7 @@ public:
   KMP(const vector<int> &v) : N(v.size()), S(v), res(N+1,-1), path(N+1,-1) {
     solve();
   }
-  int operator[](const int &i) const { return res[i+1]; }
+  int &operator[](const int i) { return res[i+1]; }
 };
 
 
@@ -231,7 +231,7 @@ public:
   LongestCommonPrefix(const vector<int> &v) : N(v.size()), S(v), prefix(N,0) {
     solve();
   }
-  int operator[](const int &i) const { return prefix[i]; }
+  int &operator[](const int i) { return prefix[i]; }
 };
 
 

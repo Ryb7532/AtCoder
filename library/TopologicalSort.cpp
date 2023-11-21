@@ -39,5 +39,5 @@ public:
     return sorted.size() == N;
   }
 
-  int operator[](int &id) { return sorted[id]; }
+  int &operator[](const int id) { return sorted[id]; }
 };

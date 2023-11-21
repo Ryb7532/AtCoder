@@ -61,9 +61,10 @@ public:
     g[v].emplace_back((Edge){u, e, ident, ident});
   }
 
-  vector<sum_t> solve() {
+  void solve() {
     dfs_sub(0,-1);
     dfs_all(0,-1,ident);
-    return dp;
   }
+
+  sum_t &operator[](const int i) { return dp[i]; }
 };

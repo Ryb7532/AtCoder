@@ -4,23 +4,39 @@ typedef long long ll;
 #define rep(i, n) for (int i=0; i<(n); i++)
 #define all(v) v.begin(),v.end()
 
-const int MN = 2e5; //size
-const ll INF = 1e9;
-
-int N;
-vector<ll> A(MN);
-vector<ll> dp(MN,INF);
-vector<int> ans(MN);
-int res;
-
 // Task: Longest Increasing Subsequence Problem
-void LIS() {
-  rep(i,N) {
-    auto it = lower_bound(all(dp),A[i]);
-    if (*it == INF)
-      res++;
-    ans[i] = res;
-    *it = A[i];
+class LIS() {
+  int N;
+  vector<ll> A,dp;
+  vector<int> ans;
+  int res;
+  const ll INF = 1e9;
+
+public:
+  LIS(int n) : N(n), A(N), dp(N,INF), ans(N) {}
+
+  LIS(const vector<ll> &v) : N(v.size()), A(N), dp(N,INF), ans(N) {
+    rep(i,N)
+      A[i] = v[i];
+    solve();
   }
-  return ;
-}
+
+  void set(int i, ll a) { A[i] = a; }
+
+  void solve() {
+    res = 0;
+    rep(i,N) {
+      auto it = lower_bound(all(dp),A[i]);
+      if (*it == INF)
+        res++;
+      ans[i] = res;
+      *it = A[i];
+    }
+  }
+
+  int max_len() { return res; }
+
+  vector<ll> &get() { return ans; }
+
+  ll &operator[](const int i) { return ans[i]; }
+};

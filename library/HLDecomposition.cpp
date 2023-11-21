@@ -49,13 +49,11 @@ public:
     build_path(root, -1, ord);
   }
 
-  inline int get(int a) {
-    return in[a];
-  }
+  int &operator[](const int a) { return in[a]; }
 
   int lca(int a, int b) {
     int pa = pathtop[a], pb = pathtop[b];
-    while (pathtop[a] != pathtop[b]) {
+    while (pa != pb) {
       if (in[pa] > in[pb]) {
         a = par[pa];
         pa = pathtop[a];
@@ -73,8 +71,8 @@ public:
   }
 
   void path_query(int a, int b, const function<void(int,int)> &func) {
-    int pa = par[a], pb = par[b];
-    while (pathtop[a] != pathtop[b]) {
+    int pa = pathtop[a], pb = pathtop[b];
+    while (pa != pb) {
       if (in[pa] > in[pb]) {
         func(in[pa], in[a]+1);
         a = par[pa], pa = pathtop[a];
