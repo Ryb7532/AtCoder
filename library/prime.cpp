@@ -72,4 +72,5 @@ vector<ll> divisor(ll n) {
       res.push_back(n/i);
   }
   sort(all(res));
+  return res;
 }

@@ -19,4 +19,4 @@ struct GCD {
   }
 
   GCD(ll a=0, ll b=0) { solve(a,b); }
-}
+};
