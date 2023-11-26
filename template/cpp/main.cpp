@@ -9,11 +9,14 @@ typedef long double ld;
 #define rrep3(i,s,e) for (int i=(int)e-1; i>=(int)s; i--)
 #define rrep2(i,n) rrep3(i,0,n)
 #define rrep(...) GET_MACRO(__VA_ARGS__,rrep3,rrep2)(__VA_ARGS__)
+#define fore(e,v) for (auto &e: v)
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+#define chmin(a,b) a = min(a,b)
+#define chmax(a,b) a = max(a,b)
 #define print(a) cout << a << endl
 #define fix(n) fixed << setprecision(n)
 #define fill_c(c, n) setfill(c) << setw(n)
-#define all(v) v.begin(), v.end()
-#define rall(v) v.rbegin(), v.rend()
 #define Yes "Yes"
 #define No "No"
 #define printyesno(f) cout << (f ? Yes : No) << endl
