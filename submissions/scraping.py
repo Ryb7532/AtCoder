@@ -4,10 +4,9 @@ import requests
 import json
 from time import sleep
 
-f = open('../info.json', 'r')
-info = json.load(f)
-api_path = "https://kenkoooo.com/atcoder/atcoder-api/v3/user/submissions?user={}&from_second={}".format(info["userID"], info["second"])
-num_data = 10000 # 最新の提出データから対象にするデータ数
+with open('../info.json', 'r') as f:
+    info = json.load(f)
+api_path = "https://kenkoooo.com/atcoder/atcoder-api/v3/user/submissions?user={}&from_second={}".format(info["userID"], info["min_second"])
 
 # APIを用いた提出データの取得
 def getSubmissionData():
@@ -17,7 +16,6 @@ def getSubmissionData():
     return jsonData
 
 submissions = getSubmissionData()
-# submissions = submissions[-num_data:]
 
 def collectNewestAcceptedSubmissions(submissions):
     sortedData = sorted(submissions, key=lambda x: x['id'])  # IDで昇順ソートすると古い順になる
@@ -99,7 +97,13 @@ for submissions in newestSubmits.values():
         # 追加したファイルの数を増やす
         add_cnt += 1
 
+        # 次回以降の探索範囲を削減
+        info["min_second"] = min(info["min_second"], sub["epoch_second"])
+
         # アクセス負荷軽減のために時間をおく(3秒)
         sleep(3)
 
 driver.quit()
+
+with open('../info.json', 'w') as f:
+    json.dump(info, f)

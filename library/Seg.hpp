@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include "BinaryIndexed.hpp"
 using namespace std;
 
 // Task: Range Maximum(Minimum) Query
@@ -360,25 +361,6 @@ public:
 };
 
 // examples
-template<typename T>
-struct BIT {
-  int n;
-  vector<T> dat;
-  BIT(int n) : n(n), dat(n+1,0){}
-  void add(int i,T x) {
-    for (++i; i<=n; i+=(i&-i)) dat[i] += x;
-  }
-  T sum(int i) {
-    T res = 0;
-    for (++i; i>0; i-=(i&-i))
-      res += dat[i];
-    return res;
-  }
-  T range_sum(int l,int r) {
-    return sum(r-1)-sum(l-1);
-  }
-};
-
 int example_Seg2D() {
   auto f = [](int x, int y) { return x + y; };
   auto g = [](BIT<int> &k, int x, int y) { return k.sum(y - 1) - k.sum(x - 1); };
@@ -497,27 +479,6 @@ public:
 
 // examples
 // Binary Indexed Tree (Range Update and Point Query)
-template<typename T>
-struct BIT_RUPQ {
-  int n;
-  vector<T> dat;
-  BIT_RUPQ(int n) : n(n), dat(n+1,0){}
-  void add(int i,T x) {
-    for (++i; i<=n; i+=(i&-i)) dat[i] += x;
-  }
-  // add x to elements in [a,b)
-  void range_add(int a, int b, T x) {
-    add(a, x);
-    add(b, -x);
-  }
-  T point_query(int i) {
-    T res = 0;
-    for (++i; i>0; i-=(i&-i))
-      res += dat[i];
-    return res;
-  }
-}; // 0-indexed
-
 int example_Seg2D_RUPQ() {
   auto f = [](int x, int y) { return x + y; };
   auto g = [](BIT_RUPQ<int> &k, int x) { return k.point_query(x); };

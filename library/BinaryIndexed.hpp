@@ -44,4 +44,3 @@ struct BIT_RUPQ {
     return res;
   }
 }; // 0-indexed
-
