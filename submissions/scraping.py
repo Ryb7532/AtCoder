@@ -2,19 +2,21 @@
 from typing import Sized
 import requests
 import json
+from time import sleep
 
-userID = "Ryb7532" # 自分のAtCoderのユーザーIDを設定する
-api_path = "https://kenkoooo.com/atcoder/atcoder-api/results?user="
+f = open('../info.json', 'r')
+info = json.load(f)
+api_path = "https://kenkoooo.com/atcoder/atcoder-api/v3/user/submissions?user={}&from_second={}".format(info["userID"], info["second"])
 num_data = 10000 # 最新の提出データから対象にするデータ数
 
 # APIを用いた提出データの取得
-def getSubmissionData(userID):
-    api_url = api_path + userID
+def getSubmissionData():
+    api_url = api_path
     response = requests.get(api_url)
     jsonData = response.json()
     return jsonData
 
-submissions = getSubmissionData(userID)
+submissions = getSubmissionData()
 # submissions = submissions[-num_data:]
 
 def collectNewestAcceptedSubmissions(submissions):
@@ -51,7 +53,6 @@ for contestName in newestSubmits:
 import re
 import html
 from selenium import webdriver
-from time import sleep
 import subprocess
 import geckodriver_autoinstaller
 
