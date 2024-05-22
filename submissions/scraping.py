@@ -59,6 +59,7 @@ geckodriver_autoinstaller.install()
 driver = webdriver.Firefox()
 
 add_cnt = 0
+max_epoch_second = 0
 
 for submissions in newestSubmits.values():
     for sub in submissions:
@@ -98,12 +99,13 @@ for submissions in newestSubmits.values():
         add_cnt += 1
 
         # 次回以降の探索範囲を削減
-        info["min_second"] = min(info["min_second"], sub["epoch_second"])
+        max_epoch_second = max(max_epoch_second, sub["epoch_second"])
 
         # アクセス負荷軽減のために時間をおく(3秒)
         sleep(3)
 
 driver.quit()
 
+info["min_second"] = max_epoch_second
 with open('../info.json', 'w') as f:
     json.dump(info, f)
