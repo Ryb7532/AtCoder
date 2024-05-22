@@ -1,11 +1,10 @@
 #!/bin/bash
 
 cd submissions
-gitstat=""
-while [ "$gitstat" == "" ] || [ `find */* -empty | wc -l` != 0 ]; do
+python3 scraping.py
+while [ `find */* -empty | wc -l` != 0 ]; do
   find */* -empty -delete
   python3 scraping.py
-  gitstat=`git status -s`
 done
 git add .
 echo "Will you push? (if not, type n.)"
