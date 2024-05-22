@@ -34,6 +34,8 @@ def collectNewestAcceptedSubmissions(submissions):
 
 newestSubmits =  collectNewestAcceptedSubmissions(submissions)
 
+if not newestSubmits:
+    exit()
 
 
 
