@@ -25,13 +25,15 @@ struct BIT {
 
 // Binary Indexed Tree (Range Update and Point Query)
 template<typename T>
-struct BIT_RUPQ {
+class BIT_RUPQ {
   int n;
   vector<T> dat;
-  BIT_RUPQ(int n) : n(n), dat(n+1,0){}
   void add(int i,T x) {
     for (++i; i<=n; i+=(i&-i)) dat[i] += x;
   }
+
+public:
+  BIT_RUPQ(int n) : n(n), dat(n+1,0){}
   // add x to elements in [a,b)
   void range_add(int a, int b, T x) {
     add(a, x);
@@ -43,4 +45,5 @@ struct BIT_RUPQ {
       res += dat[i];
     return res;
   }
+  T operator[](int i) { return point_query(i); }
 }; // 0-indexed
