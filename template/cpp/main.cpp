@@ -24,7 +24,7 @@ typedef long double ld;
 #define Yes "Yes"
 #define No "No"
 #define printyn(f) cout << (f ? Yes : No) << endl
-#define printall(a) for (auto e: a) cout << e << " "; cout << endl
+#define printall(a) {for (auto e: a) cout << e << " "; cout << endl;}
 
 int main() {
   
