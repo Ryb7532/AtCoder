@@ -273,6 +273,53 @@ struct Palindrome {
 };
 
 
+template<int char_size>
+struct TrieNode {
+  int nxt[char_size];
+  int cnt;
+  vector<int> accept;
+  TrieNode() : cnt(0) { memset(nxt, -1, sizeof(nxt)); }
+};
+template<int char_size, int base>
+struct TrieTree {
+  using Node = TrieNode<char_size>;
+  vector<Node> nodes;
+  int root;
+
+  TrieTree() : root(0) { nodes.push_back(Node()); }
+
+  void update_direct(int n, int id) { nodes[n].accept.push_back(id); }
+  void update(int n) { nodes[n].cnt++; }
+  void add(const string &s, int idx, int n, int id) {
+    if (idx == s.size())
+      update_direct(n, id);
+    else {
+      const int c = s[idx] - base;
+      if (nodes[n].nxt[c] == -1) {
+        nodes[n].nxt[c] = (int)nodes.size();
+        nodes.push_back(Node());
+      }
+      add(s, idx+1, nodes[n].nxt[c], id);
+      update(n);
+    }
+  }
+  void add(const string &s) { add(s,0,root,nodes[root].cnt); }
+  int count() const { return nodes[root].cnt; }
+  int size() const { return (int)nodes.size(); }
+
+  void query(const string &s, const function<void(int)> &f, int idx, int n) {
+    for (auto &idx: nodes[n].accept) f(idx);
+    if (idx == s.size())
+      return;
+    const int c = s[idx] - base;
+    if (nodes[n].nxt[c] == -1)
+      return;
+    query(s, f, idx+1, nodes[n].nxt[c]);
+  }
+  void query(const string &s, const function<void(int)> &f) { query(s,f,0,root); };
+};
+
+
 typedef unsigned long long ull;
 struct RollingHash {
   vector<ull> hash, pow;
