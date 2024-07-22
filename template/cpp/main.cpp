@@ -21,7 +21,11 @@ typedef long double ld;
 #define No "No"
 #define printyn(f) cout << ((f) ? Yes : No) << endl
 #define printall(a) {for (auto e: a) cout << e << " "; cout << endl;}
-template<typename... Args> void print(const Args... args) {(cout << ... << (cout << ' ', args)) << endl;}
+void print() {cout << endl;}
+template<typename Arg, typename... Args> void print(const Arg a, const Args... b) {
+  cout << a;
+  (cout << ... << (cout << ' ', b)) << endl;
+}
 
 int main() {
   
