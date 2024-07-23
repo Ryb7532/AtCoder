@@ -17,9 +17,7 @@ typedef long double ld;
 #define chmax(a,b) a = max(a,b)
 #define fix(n) fixed << setprecision(n)
 #define fill_c(c, n) setfill(c) << setw(n)
-#define Yes "Yes"
-#define No "No"
-#define printyn(f) cout << ((f) ? Yes : No) << endl
+#define printyn(f) cout << ((f) ? "Yes" : "No") << endl
 #define printall(a) {for (auto e: a) cout << e << " "; cout << endl;}
 void print() {cout << endl;}
 template<typename Arg, typename... Args> void print(const Arg a, const Args... b) {
