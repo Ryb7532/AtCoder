@@ -53,6 +53,7 @@ for contestName in newestSubmits:
 import re
 import html
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
 import subprocess
 import geckodriver_autoinstaller
 
@@ -61,7 +62,7 @@ geckodriver_autoinstaller.install()
 driver = webdriver.Firefox()
 
 add_cnt = 0
-max_epoch_second = 0
+max_epoch_second = info["min_second"]
 
 for submissions in newestSubmits.values():
     for sub in submissions:
@@ -87,6 +88,7 @@ for submissions in newestSubmits.values():
 
         # 提出ページへアクセス
         sub_url = "https://atcoder.jp/contests/" + sub["contest_id"] + "/submissions/" + str(sub["id"])
+
         driver.get(sub_url)
 
         # 提出コードの取得
