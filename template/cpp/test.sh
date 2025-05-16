@@ -44,6 +44,6 @@ do
   i=`expr $i + 1 `
 done
 
-if [ $FLAG_SUBMIT == 1 ] || [ $FLAG_FORCE_SUBMIT == 1 ]; then
-  echo $contest$task | acc submit
-fi
+# if [ $FLAG_SUBMIT == 1 ] || [ $FLAG_FORCE_SUBMIT == 1 ]; then
+#   echo $contest$task | acc submit
+# fi

@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ "$VIRTUAL_ENV_PROMPT" == "" ]; then
+  source $(dirname $0)/venv/bin/activate
+fi
+
 cd submissions
 python3 scraping.py
 while [ `find */* -empty | wc -l` != 0 ]; do
