@@ -24,6 +24,7 @@ template<typename Arg, typename... Args> void print(const Arg a, const Args... b
   cout << a;
   (cout << ... << (cout << ' ', b)) << endl;
 }
+template<class... T> void scan(T&... a) {(cin >> ... >> a);}
 
 int main() {
   
