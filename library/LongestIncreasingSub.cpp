@@ -6,11 +6,11 @@ typedef long long ll;
 
 // Task: Longest Increasing Subsequence Problem
 class LIS() {
+  const ll INF = 1e9;
   int N;
   vector<ll> A,dp;
   vector<int> ans;
   int res;
-  const ll INF = 1e9;
 
 public:
   LIS(int n) : N(n), A(N), dp(N,INF), ans(N) {}

@@ -7,15 +7,14 @@ typedef long long ll;
 // Task: Single Source Shortest Path Problem
 // Dijkstra (no minus cost path)
 class Dijkstra {
+  const ll INF = 1e9;
   int N;
   vector<ll> dist;
   using P = pair<ll,int>;
   vector<vector<P>> edge;
 
 public:
-  const ll INF = 1e9;
-
-  Dijkstra(int n) : N(n), dist(N), edge(N) {}
+  Dijkstra(int n) : N(n), dist(N, INF), edge(N) {}
 
   void add_edge(int a, int b, ll c) {
     assert(c >= 0);
@@ -28,7 +27,6 @@ public:
   }
 
   void solve(int s) {
-    fill(all(dist), INF);
     dist[s] = 0;
     priority_queue<P,vector<P>,greater<P>> q;
     q.push({0,s});

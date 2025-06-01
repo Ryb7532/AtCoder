@@ -6,12 +6,11 @@ typedef long long ll;
 // Task: All Pair Shortest Path Problem
 // Warshall-Floyd Algorithm
 class WarshallFloyd {
+  const ll INF = 1e9;
   int N;
   vector<ll> dist;
 
 public:
-  const ll INF = 1e9;
-
   WarshallFloyd(int n) : N(n), dist(N*N,INF) {
     rep(i,N)
       dist[i*N+i] = 0;

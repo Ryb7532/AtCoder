@@ -115,7 +115,7 @@ class SuffixArrayIS {
 
 public:
   SuffixArrayIS(const string &s)
-    : N(s.size()+1), rmq(N-1, [](int a, int b){return min(a,b);}, 1e9)
+    : N(s.size()+1), rmq(N-1, [](int a, int b) {return min(a,b);}, 1e9)
   {
     S = new int[N];
     sa = new int[N];
@@ -129,7 +129,7 @@ public:
     buildRMQ();
   }
   SuffixArrayIS(const vector<int> &v)
-    : N(v.size()+1), rmq(N-1, [](int a, int b){return min(a,b);}, 1e9)
+    : N(v.size()+1), rmq(N-1, [](int a, int b) {return min(a,b);}, 1e9)
   {
     S = new int[N];
     sa = new int[N];

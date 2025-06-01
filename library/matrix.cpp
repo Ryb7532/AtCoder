@@ -3,13 +3,13 @@ using namespace std;
 #define rep(i,n) for (int i=0; i<(int)(n); i++)
 
 
-const ll aid = 0; // Additive identity
-const ll mid = 1; // Multiplicative identity
-
 // Matrix
 template< typename T >
 struct Matrix {
+  const ll aid = 0; // Additive identity
+  const ll mid = 1; // Multiplicative identity
   vector<vector<T>> A;
+
   Matrix(size_t n, size_t m): A(n,vector<T>(m,aid)) {};
   Matrix(size_t n): A(n,vector<T>(n,aid)) {};
   size_t height() const { return (A.size()); }

@@ -37,10 +37,8 @@ private:
   }
 
 public:
-  FordFulkerson(int n) : INF(numeric_limits<flow_t>::max()), timestamp(0) {
-    graph.resize(n);
-    used.assign(n, -1);
-  }
+  FordFulkerson(int n)
+    : graph(n), used(n, -1), INF(numeric_limits<flow_t>::max()), timestamp(0) {}
 
   void add_edge(int from, int to, flow_t cap, int idx = -1) {
     graph[from].emplace_back((edge) {to, cap, (int) graph[to].size(), false, idx});

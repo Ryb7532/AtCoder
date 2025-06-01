@@ -12,7 +12,7 @@ class Tsort {
 
 public:
   vector<int> sorted;
-  Tsort(int n) : N(n), indg(N), edge(N) {}
+  Tsort(int n) : N(n), edge(N), indg(N) {}
 
   void add_edge(int a, int b) {
     edge[a].push_back(b);

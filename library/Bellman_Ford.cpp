@@ -8,15 +8,14 @@ typedef long long ll;
 // Task: Single Source Shortest Path Problem
 // Bellman-Ford Algorithm
 class BellmanFord {
+  const ll INF = 1e9;
   int N, E;
   vector<ll> dist;
   vector<int> src, dst;
   vector<ll> cost;
 
 public:
-  const ll INF = 1e9;
-
-  BellmanFord(int n) : N(n), dist(n) {}
+  BellmanFord(int n) : N(n), dist(N, INF) {}
 
   void add_edge(int a, int b, ll c) {
     src.push_back(a);
@@ -31,7 +30,6 @@ public:
   }
 
   bool solve(int s) {
-    fill(all(dist), INF);
     dist[s] = 0;
     int cnt = 0;
     bool updated = true;

@@ -7,7 +7,7 @@ template<typename T>
 struct BIT {
   int n;
   vector<T> dat;
-  BIT(int n) : n(n), dat(n+1,0){}
+  BIT(int n) : n(n), dat(n+1,0) {}
   void add(int i,T x) {
     for (++i; i<=n; i+=(i&-i)) dat[i] += x;
   }
@@ -33,7 +33,7 @@ class BIT_RUPQ {
   }
 
 public:
-  BIT_RUPQ(int n) : n(n), dat(n+1,0){}
+  BIT_RUPQ(int n) : n(n), dat(n+1,0) {}
   // add x to elements in [a,b)
   void range_add(int a, int b, T x) {
     add(a, x);

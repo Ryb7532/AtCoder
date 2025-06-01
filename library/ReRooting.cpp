@@ -13,11 +13,11 @@ private:
   // Function to calculate the value of the subtree
   using G = function<sum_t(sum_t,data_t)>;
 
+  const sum_t ident;
   vector<vector<Edge>> g;
   vector<sum_t> subdp, dp;
   const F f1;
   const G f2;
-  const sum_t ident;
 
   void dfs_sub(int n, int p) {
     for (auto &e: g[n]) {
@@ -49,7 +49,7 @@ private:
 
 public:
   ReRooting(int n, const F &f1, const G &f2, const sum_t &ident) :
-    g(n), f1(f1), f2(f2), ident(ident), subdp(n, ident), dp(n, ident) {}
+    ident(ident), g(n), subdp(n, ident), dp(n, ident), f1(f1), f2(f2) {}
 
   void add_edge(int u, int v, const data_t &d) {
     g[u].emplace_back((Edge){v, d, ident, ident});
