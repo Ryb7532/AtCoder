@@ -205,7 +205,7 @@ public:
   Monoid operator[](const int &k) {
     return query(k, k+1);
   }
-  // return minimum x such that satisfy "check" in [a,x)
+  // return minimum x such that satisfy "check" in [a,x]
   template< typename C >
   int find_first(int a, const C &check) {
     if (a >= n) return n;
@@ -226,7 +226,7 @@ public:
             a++;
           }
         }
-        return a + 1 - sz;
+        return a - sz;
       }
       L = nxt;
       ll += length[a];
