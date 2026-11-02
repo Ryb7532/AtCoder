@@ -108,6 +108,7 @@ class RUQ {
   using F = function<Monoid(Monoid, Monoid, int, int)>;
   using G = function<Monoid(Monoid, OperatorMonoid, int)>;
   using H = function<OperatorMonoid(OperatorMonoid,OperatorMonoid)>;
+  using C = function<bool(Monoid)>;
   int n, sz, height;
   vector<Monoid> data;
   vector<OperatorMonoid> lazy;
@@ -206,7 +207,6 @@ public:
     return query(k, k+1);
   }
   // return minimum x such that satisfy "check" in [a,x]
-  template< typename C >
   int find_first(int a, const C &check) {
     if (a >= n) return n;
     thrust(a += sz, false);
@@ -235,13 +235,11 @@ public:
     return n;
   }
   // return maximum x such that satisfy "check" in [x,b)
-  template< typename C >
   int find_last(int b, const C &check) {
     if (b <= 0) return -1;
     thrust(b += sz, true);
     Monoid R = mi;
     int lr = 0;
-    b++;
     do {
       b--;
       while (b > 1 && (b&1)) b >>= 1;

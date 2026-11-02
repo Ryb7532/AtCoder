@@ -17,7 +17,5 @@ done
 
 printf "Which contest?\n"
 read contest
-oj login https://beta.atcoder.jp/
-acc login
 acc new $contest $OPT_CONFIG $OPT_TEMPLATE
 code $contest/*/main.cpp
